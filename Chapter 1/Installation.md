@@ -89,3 +89,6 @@ backend : http://localhost/yii-application/backend/web/index.php
 'cookieValidationKey' => 'enter your secret key here',
 ```
 4. จากนั้นทำการทดสอบเข้าใช้งาน
+
+## ปัญหาที่พบบ่อยๆ ในการติดตั้ง
+--'
