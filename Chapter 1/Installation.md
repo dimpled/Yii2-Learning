@@ -24,6 +24,8 @@ composer global require "fxp/composer-asset-plugin:1.0.0"
 composer create-project --prefer-dist yiisoft/yii2-app-basic basic
 ```
 "basic" บรรทัดสุดท้ายคือชื่อ app
+> ในตัวอย่างนี้ผมติดตั้งไว้ที่ /Applications/MAMP/htdocs/ ในตัวจำลอง server
 
+ทดสอบเข้าใช้งาน http://localhost/basic/web
 
 ## ติดตั้งโดยดาวโหลดไฟล์มาติดตั้งเอง
