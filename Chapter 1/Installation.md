@@ -10,7 +10,7 @@
 curl -s http://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 ```
-อธิบายคำสั่ง บรรทัดแรกเป็นการดาวน์โหลดไฟล์ติดตั้ง "composer.phar" บรรทัดที่สองเป็นการก๊อบปี้ไฟล์ "composer.phar" ไปไว้ที่ /usr/local/bin เพื่อให้สามารถเรียกใช้งานได้โดยไม่ต้องระบบุ path
+>Note: บรรทัดแรกเป็นการดาวน์โหลดไฟล์ติดตั้ง "composer.phar" บรรทัดที่สองเป็นการก๊อบปี้ไฟล์ "composer.phar" ไปไว้ที่ /usr/local/bin เพื่อให้สามารถเรียกใช้งานได้โดยไม่ต้องระบบุ path
 
 ในส่วนของ Windows คุณสามารถดาวน์โหลดไฟล์ไปติดตั้งได้เลย [Composer-Setup.exe](https://getcomposer.org/Composer-Setup.exe) และสามารถอ่านรายละเอียดการใช้งานเพิ่มเติมได้ที่นี่ [Composer Documentation](https://getcomposer.org/doc/) ไม่ว่าจะเป็นการติดตั้งหรือปัญหาการใช้งานต่างๆ
 
