@@ -21,7 +21,7 @@ composer update
 สร้างตาราง `countries` ใน mysql และสร้าง Countries Model และ gii CRUD
 จากนั้นทำการเปลี่ยนการเรียกใช้งานในส่วน `use` Gridview
 จากเดิม
-* ดาวน์โหลดไฟล์ countries.sql ได้ที่นี่
+* ดูโครงสร้างตารา `countries` [countries.sql](https://github.com/raramuridesign/mysql-country-list/blob/master/mysql-country-list.sql) ได้ที่นี่
 ```php
 <?php
 use yii\grid\GridView;
@@ -41,9 +41,13 @@ use kartik\grid\GridView;
     'panel'=>[
         'before'=>''
     ],
-    //.....
-    )];
-?>
+    // ...
+    'columns' => [
+        'id',
+        'name',
+        'created_at:datetime'
+    ],
+]) ?>
 ```
 
 สดสอบรันดู จะพบไอคอน ที่ด้านขวาให้เราสามารถคลิกแล้วเลือก   export ตามที่เราต้องการได้โดยมีรายการให้เลือกดังนี้
