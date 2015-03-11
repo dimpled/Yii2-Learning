@@ -5,7 +5,7 @@
 ![index](/images/index.png)
 
 ### Install
-ในการใช้งาน export menu จะต้องติดตั้ง  ` widget`ทั้งหมด 3 ตัว โดยเพิ่มที่ไฟล์ composer.json ในส่วนของ  ```require```
+ในการใช้งาน export menu จะต้องติดตั้ง  ` widget`ทั้งหมด 4 ตัว โดยเพิ่มที่ไฟล์ composer.json ในส่วนของ  ```require```
 
  ```
 "kartik-v/yii2-widgets": "*",
@@ -95,3 +95,14 @@ use kartik\grid\GridView;
 
 ## ตัวอย่างไฟล์ที่ export
 ### Html
+![html](/images/html.png)
+### Text
+![text](/images/txt.png)
+### CSV
+![csv](/images/csv.png)
+### Pdf
+![pdf](/images/pdf.png)
+### Excel
+![excel](/images/excel.png)
+### Json
+![json](/images/json.png)
