@@ -1,7 +1,10 @@
 # เพิ่ม Botton Group ใน GridView
 
+เห็น button group ใน bootstrap สวนดี ก็เลยจับมาใส่ใน actionColumn  ซักหน่อย ของเดิมดูยาก บางทีมองแทบไม่ออกว่ามันคือปุ่ม
 ![](/images/grid-button.png)
 
+ง่ายมากๆ เพิ่ม div ใน property `template` และใส่ class `btn-group btn-group-sm` ครอบปุ่มต่างๆไว้ และเพิ่ม class `btn btn-default` ที่ link
+> จริงๆ ใน version 2.4 จะมี buttonOptions ให้สามารถคอนฟิกได้เลยสั้นๆ ตอนนี้รอมันออก 2.4 ค่อยอัพเดทไปใช้ ตอนนี้ใช้แบบนี้ไปก่อน
 ```php
 <?= GridView::widget([
      'dataProvider' => $dataProvider,
@@ -37,5 +40,3 @@
      ],
  ]); ?>
 ```
-
-rr
