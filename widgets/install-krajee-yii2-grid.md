@@ -18,18 +18,21 @@ composer update
 
 ### Config
 
-ในตัวอย่างนี้ผมได้สร้างตาราง `countries` ไว้แล้วและทำการ gii crud ไว้เรียบร้อย
-ซึ่งเราจะทำการเปลี่ยนการใช้งานจากของเดิม ` yii\grid\GridView` เป็น `kartik\grid\GridView;` โดยแก้ไขที่ไฟล์ `countries/index.php`
+สร้างตาราง `countries` ใน mysql และสร้าง Countries Model และ gii CRUD
+จากนั้นทำการเปลี่ยนการเรียกใช้งานในส่วน `use` Gridview
 จากเดิม
-```
+* ดาวน์โหลดไฟล์ countries.sql ได้ที่นี่
+```php
+<?php
 use yii\grid\GridView;
 ```
 เปลี่ยนเป็น
-```
+```php
+<?php
 use kartik\grid\GridView;
 ```
 
-จากนั้นในส่วนของการเรียกใช้งาน `GridView::widget([....])` เพิ่มค่าคอนฟิก properties `panel` เข้าไป
+และในส่วนของการเรียกใช้งาน `GridView::widget([....])` เพิ่มค่าคอนฟิก properties `panel` เข้าไป
 ```php
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
@@ -43,7 +46,7 @@ use kartik\grid\GridView;
 ?>
 ```
 
-ลองทำการสดสอบรันดู จะพบ `export menu` ที่ด้านขวาให้เราสามารถคลิกแล้วเลือก  ตามที่เราต้องการได้โดยมีรายการให้เลือกดังนี้
+สดสอบรันดู จะพบไอคอน ที่ด้านขวาให้เราสามารถคลิกแล้วเลือก   export ตามที่เราต้องการได้โดยมีรายการให้เลือกดังนี้
 - Html
 - CSV
 - Text
