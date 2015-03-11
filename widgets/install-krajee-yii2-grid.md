@@ -140,8 +140,8 @@ echo ExportMenu::widget([
 
 ก่อนอื่นเราต้อง ดาวน์โหลดฟอนต์ไทยมาก่อนครับ ([Download](/downloads/thaifont.zip))
 
-1. แตกซิบไฟล์แล้วนำฟอนต์ทั้งหมดไปไว้ที่ `vendor/kartik-v/mpdf/ttfont/`
-2. จากนั้นทำการแก้ไขไฟล์ `vendor/kartik-v/mpdf/config_fonts.php` เพิ่มชื่อฟอนต์เข้าไป
+- แตกซิบไฟล์แล้วนำฟอนต์ทั้งหมดไปไว้ที่ `vendor/kartik-v/mpdf/ttfont/`
+- จากนั้นทำการแก้ไขไฟล์ `vendor/kartik-v/mpdf/config_fonts.php` เพิ่มชื่อฟอนต์เข้าไป
 ```php
  $this->fontdata = array(
    "thsaraban" => array(
@@ -151,17 +151,17 @@ echo ExportMenu::widget([
         'BI'   =>  "THSarabunNew-BoldItalic.ttf"
         ),
  ```
- 3. และเพิ่ม `thsaraban` เข้าไปที่
+- และเพิ่ม `thsaraban` เข้าไปที่
 ```php
 $this->sans_fonts = array('thsaraban',
 ```
-4. ไปที่ไฟล์ `vendor/kartik-v/mpdf/config_lang2fonts.php` แล้วค้นหาคำว่า Thai แล้วแก้เป็นดังนี้
+- ไปที่ไฟล์ `vendor/kartik-v/mpdf/config_lang2fonts.php` แล้วค้นหาคำว่า Thai แล้วแก้เป็นดังนี้
 ```php
   CASE "th":  CASE "tha":	// THAI
   $unifont = "thsaraban";
   break;
 ```
-5. แก้ไขไฟล์ `vendor/kartik-v/yii2-mpdf/Pdf.php`  เพิ่ม `thsaraban` เข้าไป
+- แก้ไขไฟล์ `vendor/kartik-v/yii2-mpdf/Pdf.php`  เพิ่ม `thsaraban` เข้าไป
 ```php
 public function setApi()
    {
@@ -181,7 +181,7 @@ public function setApi()
        );
    }
 ```
-6. แก้ไขไฟล์ css ที่ `vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.css` เพิ่มฟอนต์ `thsaraban` เข้าไป
+- แก้ไขไฟล์ css ที่ `vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.css` เพิ่มฟอนต์ `thsaraban` เข้าไป
 ```css
 body {
   font-family: "thsaraban","Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -192,5 +192,5 @@ body {
 }
 ```
 
-### ตัวอย่าง
+### ตัวอย่างไฟล์
 ![thaipdf](/images/pdf-thai.png)
