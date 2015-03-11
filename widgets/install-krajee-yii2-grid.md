@@ -15,13 +15,32 @@
 ```
 composer update
 ```
+![install grid](/images/install-grid.png "Logo Title Text 1")
 
 ### Config
+ตัวอย่างนี้จะใช้ข้อมูลจากตาราง countries
+> ดูโครงสร้างตาราง `countries` [countries.sql](https://github.com/raramuridesign/mysql-country-list/blob/master/mysql-country-list.sql) ได้ที่นี่
 
-สร้างตาราง `countries` ใน mysql และสร้าง Countries Model และ gii CRUD
-จากนั้นทำการเปลี่ยนการเรียกใช้งานในส่วน `use` Gridview
+หลังจากสร้างตาราง countries ใน mysql แล้วให้ gii countries Model และ gii countries CRUD
+
+จากนั้นเพิ่ม module gridview ใน `config\web.php` ตามด้านล่าง ตัวนี้เป็น module ที่ใช้ในการ export  (csv, text, html, or xls)
+เพื่อรองรับการ export ที่เราคลิกเลือกจากเมนู
+```php
+$config = [
+    'id' => 'basic',
+    'basePath' => dirname(__DIR__),
+    'bootstrap' => ['log'],
+    //...........
+    'modules' => [
+       'gridview' =>  [
+            'class' => '\kartik\grid\Module'
+        ]
+    ],
+```
+
+จากนั้นไปที่ `views\countries\index.php` ทำการเปลี่ยนการเรียกใช้งานในส่วน `use` Gridview
 จากเดิม
-* ดูโครงสร้างตารา `countries` [countries.sql](https://github.com/raramuridesign/mysql-country-list/blob/master/mysql-country-list.sql) ได้ที่นี่
+
 ```php
 <?php
 use yii\grid\GridView;
