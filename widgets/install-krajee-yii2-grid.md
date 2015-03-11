@@ -2,6 +2,13 @@
 
  ในตัวอย่างนี้เป็นการติดตั้งและใช้งาน widget ของ [kartik-v/yii2-grid](https://github.com/kartik-v/yii2-grid/blob/master/README.md) โดยที่ตัว GridView ตัวนี้มีความสามารถเยอะมากๆ แต่หลักๆ ที่ผมชอบเลยก็คือ สามารถ export ข้อมูลได้หลายแบบ เช่น .xls, .pdf, .csv, .txt, .html ซึ่งสามารถคลิกเลือกจากตัว GridView ได้โดยตรงเลย
 
+ มี 2 แบบคือ
+ * Export from GridView
+ * Export Menu
+
+
+## Export from GridView
+
 ![index](/images/index.png)
 
 ### Install
@@ -103,6 +110,24 @@ use kartik\grid\GridView;
 ### Pdf
 ![pdf](/images/pdf.png)
 ### Excel
-![excel](/images/excel.png)
+ผมลองแล้วยัง error! ไม่แนใจเหมือนกันกับ `Gridview`ตัวนี้ แต่สามารถใช้ตัว export menu ได้
 ### Json
 ![json](/images/json.png)
+
+<br>
+<br>
+## Export Menu
+
+![](/images/exportmenu.png)
+
+ตัวนี้เราได้ติดตั้งไปแล้วสามารถเรียกใช้ได้เลย export menu จะรับค่า DataProvider เหมือนกับ `GridView`
+
+ไปที่ `views\countries\index.php` เพิ่ม widgit เข้าไป
+
+```php
+<?php
+echo ExportMenu::widget([
+    'dataProvider' => $dataProvider
+]);?>
+```
+หลังจากนั้นก็สามารถเรียกใช้งานได้เลย ง่ายมากๆ ครับ
