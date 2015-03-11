@@ -191,6 +191,8 @@ body {
   background-color: #fff;
 }
 ```
+### ลองเรียกใช้งาน
+![thaipdf](/images/export-pdf-thai.png)
 
 ### ตัวอย่างไฟล์
 ![thaipdf](/images/pdf-thai.png)
