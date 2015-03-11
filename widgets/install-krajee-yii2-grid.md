@@ -191,3 +191,6 @@ body {
   background-color: #fff;
 }
 ```
+
+### ตัวอย่าง
+![thaipdf](/images/pdf-thai.png)
