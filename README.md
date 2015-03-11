@@ -8,3 +8,4 @@ Yii Framework Tutorial นี้ผมตั้งใจทำขึ้นเพ
 
 ## Widgets
  - [การติดตั้ง GridView + Export Menu](https://github.com/dimpled/Yii2-Learning/blob/master/widgets/install-krajee-yii2-grid.md)
+ - [เพิ่ม Botton Group ใน GridView](https://github.com/dimpled/Yii2-Learning/blob/master/widgets/gridview-button.md)

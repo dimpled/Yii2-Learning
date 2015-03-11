@@ -11,6 +11,7 @@
          'id',
          'country_code',
          'country_name',
+         //......
          [
              'class' => 'yii\grid\ActionColumn',
              'options'=>['style'=>'width:120px;'],
