@@ -126,6 +126,7 @@ use kartik\grid\GridView;
 
 ```php
 <?php
+use kartik\export\ExportMenu;
 echo ExportMenu::widget([
     'dataProvider' => $dataProvider
 ]);?>
