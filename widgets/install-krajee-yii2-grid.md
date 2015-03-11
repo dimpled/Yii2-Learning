@@ -150,7 +150,6 @@ echo ExportMenu::widget([
         'BI'   =>  "THSarabunNew-BoldItalic.ttf"
         ),
  ```
-
 3. และเพิ่ม `thsaraban` เข้าไปที่
 ```php
 $this->sans_fonts = array('thsaraban',
