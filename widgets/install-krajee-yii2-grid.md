@@ -131,3 +131,61 @@ echo ExportMenu::widget([
 ]);?>
 ```
 หลังจากนั้นก็สามารถเรียกใช้งานได้เลย ง่ายมากๆ ครับ
+
+
+## การติดตั้งภาษาไทยให้กับ MPDF
+> วิธินี้อาจไม่ใช่วิธีที่ถูกเพราะถ้ามีการ `update` อาจทำให้ไฟล์ที่แก้ไขไว้หายไป  ถ้าใครรู้ก็รู้วิธีอื่นๆ แนะนำมาได้นะครับ
+
+ก่อนอื่นเราต้อง ดาวน์โหลดฟอนต์ไทยมาก่อนครับ ([Download](/downloads/thaifont.zip))
+1. แตกซิบไฟล์แล้วนำฟอนต์ทั้งหมดไปไว้ที่ `vendor/kartik-v/mpdf/ttfont/`
+2. จากนั้นทำการแก้ไขไฟล์ `vendor/kartik-v/mpdf/config_fonts.php` เพิ่มชื่อฟอนต์เข้าไป
+```php
+ $this->fontdata = array(
+   "thsaraban" => array(
+        'R' => "THSarabunNew.ttf",
+        'B' => "THSarabunNew-Bold.ttf",
+        'I'  => "THSarabunNew-Italic.ttf",
+        'BI'   =>  "THSarabunNew-BoldItalic.ttf"
+        ),
+ ```
+
+3. และเพิ่ม `thsaraban` เข้าไปที่
+```php
+$this->sans_fonts = array('thsaraban',
+```
+4. ไปที่ไฟล์ `vendor/kartik-v/mpdf/config_lang2fonts.php` แล้วค้นหาคำว่า Thai แล้วแก้เป็นดังนี้
+```php
+  CASE "th":  CASE "tha":	// THAI
+  $unifont = "thsaraban";
+  break;
+```
+5. แก้ไขไฟล์ `vendor/kartik-v/yii2-mpdf/Pdf.php`  เพิ่ม `thsaraban` เข้าไป
+```php
+public function setApi()
+   {
+       $this->_mpdf = new mPDF(
+           //$this->mode,
+           'thsaraban',
+           $this->format,
+           $this->defaultFontSize,
+           $this->defaultFont,
+           $this->marginLeft,
+           $this->marginRight,
+           $this->marginTop,
+           $this->marginBottom,
+           $this->marginHeader,
+           $this->marginFooter,
+           $this->orientation
+       );
+   }
+```
+6. แก้ไขไฟล์ css ที่ `vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.css` เพิ่มฟอนต์ `thsaraban` เข้าไป
+```css
+body {
+  font-family: "thsaraban","Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #fff;
+}
+```
