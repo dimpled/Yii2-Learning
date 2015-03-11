@@ -123,6 +123,7 @@ use kartik\grid\GridView;
 ตัวนี้เราได้ติดตั้งไปแล้วสามารถเรียกใช้ได้เลย export menu จะรับค่า DataProvider เหมือนกับ `GridView`
 
 ไปที่ `views\countries\index.php` เพิ่ม widgit เข้าไป
+> ตัวนี้สามารถ export excel ได้ทั้ง 2 แบบคือ .xls, .xlsx
 
 ```php
 <?php
