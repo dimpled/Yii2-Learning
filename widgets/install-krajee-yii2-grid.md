@@ -1,11 +1,14 @@
 # การติดตั้ง GridView + ExportMenu
 
- ในตัวอย่างนี้เป็นการติดตั้งและใช้งาน widget ของ `kartik-v/yii2-grid` โดยที่ตัว GridView ตัวนี้มีความสามารถเยอะมากๆ แต่หลักๆ ที่ผมชอบเลยก็คือ สามารถ export ข้อมูลได้หลายแบบ เช่น .xls, .pdf, .csv, .txt, .html ซึ่งสามารถคลิกเลือกจากตัว GridView ได้โดยตรงเลย
+ ในตัวอย่างนี้เป็นการติดตั้งและใช้งาน widget ของ [kartik-v/yii2-grid](https://github.com/kartik-v/yii2-grid/blob/master/README.md) โดยที่ตัว GridView ตัวนี้มีความสามารถเยอะมากๆ แต่หลักๆ ที่ผมชอบเลยก็คือ สามารถ export ข้อมูลได้หลายแบบ เช่น .xls, .pdf, .csv, .txt, .html ซึ่งสามารถคลิกเลือกจากตัว GridView ได้โดยตรงเลย
+
+![index](/images/index.png)
 
 ### Install
 ในการใช้งาน export menu จะต้องติดตั้ง  ` widget`ทั้งหมด 3 ตัว โดยเพิ่มที่ไฟล์ composer.json ในส่วนของ  ```require```
 
  ```
+"kartik-v/yii2-widgets": "*",
 "kartik-v/yii2-grid": "*",
 "kartik-v/yii2-export": "*",
 "kartik-v/yii2-mpdf": "*"
@@ -51,28 +54,44 @@ use yii\grid\GridView;
 use kartik\grid\GridView;
 ```
 
-และในส่วนของการเรียกใช้งาน `GridView::widget([....])` เพิ่มค่าคอนฟิก properties `panel` เข้าไป
+และในส่วนของการเรียกใช้งาน `GridView::widget([....])` เพิ่มค่าคอนฟิก properties `panel` เข้าไป และปิด ActionColumn ไว้เพราะเวลา export file เดี่ยวเมนูจะตามไปด้วย
 ```php
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
-    //....
+    //........
     'panel'=>[
-        'before'=>''
+            'before'=>' '
     ],
-    // ...
+    //.........
     'columns' => [
+        ['class' => 'yii\grid\SerialColumn'],
         'id',
-        'name',
-        'created_at:datetime'
+        'country_code',
+        'country_name',
+        //['class' => 'yii\grid\ActionColumn'],
     ],
-]) ?>
+]); ?>
 ```
 
-สดสอบรันดู จะพบไอคอน ที่ด้านขวาให้เราสามารถคลิกแล้วเลือก   export ตามที่เราต้องการได้โดยมีรายการให้เลือกดังนี้
+ทดสอบรันดู จะพบไอคอน ที่ด้านขวาให้เราสามารถคลิกแล้วเลือก   export ตามที่เราต้องการได้โดยมีรายการให้เลือกดังนี้
 - Html
 - CSV
 - Text
 - Excel
 - Pdf
 - Json
+
+![export menu](/images/grid-export.png)
+
+ลองทำการทดลอง export เลือก format ที่ต้องการ ระบบจะบอกว่ามันจะ generated file สำหรับดาวน์โหลดให้ คุณต้องการทำหรือปล่าว ให้ตอบ OK
+> หากไม่ขึ้น dialog ลองเช็คว่ามีการปิด popup ใน browser หรือไม่
+
+![export1](/images/export1.png)
+ระบบจะ export file ให้รอซักครู่
+![export2](/images/export2.png)
+หลังจากเสร็จเราสามารถเปิดดูไฟล์ได้เลย
+![export3](/images/export3.png)
+
+## ตัวอย่างไฟล์ที่ export
+### Html
