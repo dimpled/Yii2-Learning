@@ -12,3 +12,4 @@ Yii2 Framework Tutorial ตั้งใจทำขึ้นเพื่อแ�
 
 ##Tutorial
 - [เปิดการใช้งาน Pretty urls (mod_rewrite)](https://github.com/dimpled/Yii2-Learning/blob/master/tutorial/modrewrite.md)
+- [RESTful Web Service](https://github.com/dimpled/Yii2-Learning/blob/master/tutorial/restful-webservice.md)
