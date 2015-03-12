@@ -19,6 +19,7 @@
 namespace app\controllers;
 
 use yii\rest\ActiveController;
+use yii\models\Location;
 
 class LocationController extends ActiveController
 {
@@ -31,7 +32,7 @@ class LocationController extends ActiveController
 >ในส่วนนี้เราต้องเปิดการใช้งาน PrettyUrl ให้ได้เสียก่อน [ดูการติดตั้งได้ที่นี่](https://github.com/dimpled/Yii2-Learning/blob/master/tutorial/modrewrite.md)
 
 ให้เพิ่มคำสั่งนี้เข้าไปที่ `rules` ซึ่งจะเป็นการระบุให้ LocationController  ใช้งาน `url` แบบ RESTful  ได้
-```
+```php
 ['class' => 'yii\rest\UrlRule', 'controller' => 'location'],
 ```
 จะได้แบบนี้
