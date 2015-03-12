@@ -15,7 +15,7 @@ http://www.domain.me/site/index
 
 
 ## เปิดใช้งาน
-ก่อนอื่นให้ทำการคอนฟิกเพื่อเปิดการใช้งาน UrlManager ไปที` config/web.ph` ใส่โค้ดนี้เข้าไป
+ก่อนอื่นให้ทำการคอนฟิกเพื่อเปิดการใช้งาน UrlManager ไปที` config/web.php` ใส่โค้ดนี้เข้าไป
 * `ShowScriptName` คือ ให้แสดง index.php เราเซ็ตเป็น `false`  เพื่อใม่ให้มันแสดง
 * `ennablePrettyUrl` คือเปิดการใช้งาน เซ็ตเป็น `true` เพื่อเปิดการใช้งาน
 ```php
