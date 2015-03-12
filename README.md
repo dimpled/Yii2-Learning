@@ -11,4 +11,4 @@ Yii2 Framework Tutorial ตั้งใจทำขึ้นเพื่อแ�
  - [เพิ่ม Botton Group ใน GridView](https://github.com/dimpled/Yii2-Learning/blob/master/widgets/gridview-button.md)
 
 ##Tutorial
-[เปิดการใช้งาน Pretty urls (mod_rewrite)](https://github.com/dimpled/Yii2-Learning/blob/master/tutorial/modrewrite.md)
+- [เปิดการใช้งาน Pretty urls (mod_rewrite)](https://github.com/dimpled/Yii2-Learning/blob/master/tutorial/modrewrite.md)
