@@ -6,7 +6,7 @@
 ในตัวอย่างนี้ใช้ข้อมูล location พร้อมพิกัด [ดาวโหลดที่นี่](https://raw.githubusercontent.com/bahar/WorldCityLocations/master/World_Cities_Location_table.sql) นำข้อมูลที่ได้ import เข้า mysql ครับ จากนั้นทำการ gii สร้าง model ชื่อ Location
 
 ## Create Controller
-ทำการสร้าง `LocationController.php` ไว้ที่ `controllers\` โดยที่ตัว controller จะต้อง extends ด้วย ActiveController ซึ่งเป็น class ที่จะทำให้ LocationController เดิมๆ ของเราสามารถใช้งาน RESTful ได้ จากนั้นเราจะต้องเซ็ต overwrite property `$modelClass` เพื่อบอกว่า model ที่จะใช้ชื่อว่าอะไร อยู่ที่ใหน ซึ่งตอนนี้เราใช้ 'app\models\Locations'
+ทำการสร้าง `LocationController.php` ไว้ที่ `controllers\` โดยที่ตัว controller จะต้อง extends ด้วย ActiveController ซึ่งเป็น class ที่จะทำให้ LocationController เดิมๆ ของเราสามารถใช้งาน RESTful ได้ จากนั้นเราจะต้องเซ็ต overwrite property `$modelClass` เพื่อบอกว่า model ที่จะใช้ชื่อว่าอะไร อยู่ที่ใหน ซึ่งตอนนี้เราใช้ `app\models\Locations`
 ```php
 <?php
 namespace app\controllers;
@@ -75,4 +75,18 @@ class UserController extends ActiveController
 ```
 
 ## Trying it Out
-การใช้งาน เราจะต้องเข้าใจนิยามของการเรียกใช้งาน RESTful ก่อนซึี่งจะมีรูปแบบที่ส่วนใหญ่มีมาตรฐานแบบนี้คือ
+การใช้งาน เราจะต้องเข้าใจนิยามของการเรียกใช้งาน RESTful ก่อน ซึ่งส่วนใหญ่ก็จะใช้มาตรฐานแบบนี้
+
+| Method | Url | Description |
+| ------------- |:-------------:| -----:|
+| GET | /location |  แสดงข้อมูล location ทั้งหมด (page by page) |
+| HEAD | /location | แสดงรายละเอียด
+| POST | /location | สร้าง locationใหม่ จะต้องแนบข้อมูลมาด้วย
+| GET | /location/5 | แสดงข้อมูล location ที่ pk เท่ากับ 5
+| HEAD | /location/5 | แสดงข้อมูลรายละเอียด location  ที่ pk เท่ากับ
+| PATCH | /location/5 | แก้ไขข้อมูล location ที่ pk = 5
+| DELETE | /location | ลบข้อมูล locaiont ที่ pk = 5
+| OPTIONS | /location | x
+| OPTIONS | /location/5 | x
+
+ทดสอบลองเรียกใช้งานผ่าน `curl` ดู
