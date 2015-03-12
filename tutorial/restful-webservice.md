@@ -2,10 +2,11 @@
 ใน Yii 2 สามารถทำ RESTful ได้ง่ายๆ เลย โดยไม่ต้องติดตั้งเพิ่ม เพราะมีใน v.2 อยู่แล้ว
 - สามารถใช้กับ Active Record ได้เลยไม่ต้องเพิ่มเติมอะไร
 - ส่งออกได้ทั้ง JSON,XML
+- รองรับมาตรฐาน [ATEOAS;](http://en.wikipedia.org/wiki/HATEOAS) ด้วยนะ ถ้าใครเคยเขียน soap web service  ก็น่าจะเทียบได้กับไฟล์ WSDL ไม่ต้องงง! เพราะผมก็งงเหมือนกัน เดี่ยวอธิบายด้านล่าง
 
 ในตัวอย่างนี้ใช้ข้อมูล location พร้อมพิกัด [ดาวโหลดที่นี่](https://raw.githubusercontent.com/bahar/WorldCityLocations/master/World_Cities_Location_table.sql) นำข้อมูลที่ได้ import เข้า mysql ครับ จากนั้นทำการ gii
 
-ต้นฉบับ [Guide REST Quick Start](http://www.yiiframework.com/doc-2.0/guide-rest-quick-start.html)
+ต้นฉบับ [Guide REST Quick Start](http://www.yiiframework.com/doc-2.0/guide-rest-quick-start.html) ผมไม่ได้แปลนะ ผมเขียนตามความเข้าใจของผม (ถ้าจะพูดง่ายๆ ผมก็แปลไม่ออกนั่นแหละ T T')
 ## Create Model
 - นำเข้าข้อมูล location  [ดาวโหลดที่นี่](https://raw.githubusercontent.com/bahar/WorldCityLocations/master/World_Cities_Location_table.sql)
 - gii สร้าง Model ชื่อ Location
@@ -100,6 +101,7 @@ class LocationController extends ActiveController
 ทดสอบลองเรียกใช้งานผ่าน `curl` ดู เปิด Terminal แล้วพิมพ์คำสั่งนี้ ส่วน windows ต้องติดต้ง curl เพิ่มหากต้องการทดสอบผ่าน curl [ดาวน์โหลดได้ที่นี่](http://curl.haxx.se/download.html) ขอดีของการทดสอบผ่าน curl คือมันสามารถเรียกได้ ทุก method ถ้ารันผ่าน url บน browser มันจะได้แค่ Method `GET`
 
 `curl -i -H "Accept:application/json" "http://127.0.0.1/yii2/yii2-Leanning-Source/web/location"`
+> โปรเจคของผมอยู่ที่ `/yii2/yii2-Leanning-Source` ซึ่ง path ของคุณจะไม่ตรงกับของผมซึ่งก็ขึ้นอยู่กับว่าเราตั้งชื่อว่าอะไร
 
 หลังจากนั้นเราจะได้ข้อมูลออกมาในรูปแบบ Json
 ```json
