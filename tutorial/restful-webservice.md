@@ -20,7 +20,7 @@ class UserController extends ActiveController
 ```
 ## Configuring URL Rule
 เป็นการเปิดการใช้งาน ให้เราสามารถใช้งาน url ในแบบ RESTful ได้ โดยเพิ่มเข้าไปที่ `config\main.php`
-ในส่่วน components โดยเพิ่มส่วนนี้เข้าไป
+ในส่วน components โดยเพิ่มส่วนนี้เข้าไป
 >ในส่วนนี้เราต้องเปิดการใช้งาน PrettyUrl ให้ได้เสียก่อน [ดูการติดตั้งได้ที่นี่](https://github.com/dimpled/Yii2-Learning/blob/master/tutorial/modrewrite.md)
 
 ให้เพิ่มคำสั่งนี้เข้าไปที่ `rules` ซึ่งจะเป็นการระบุให้ LocationController  ใช้งาน `url` แบบ RESTful  ได้
