@@ -3,7 +3,14 @@
 - สามารถใช้กับ Active Record ได้เลยไม่ต้องเพิ่มเติมอะไร
 - ส่งออกได้ทั้ง JSON,XML
 
-ในตัวอย่างนี้ใช้ข้อมูล location พร้อมพิกัด [ดาวโหลดที่นี่](https://raw.githubusercontent.com/bahar/WorldCityLocations/master/World_Cities_Location_table.sql) นำข้อมูลที่ได้ import เข้า mysql ครับ จากนั้นทำการ gii สร้าง model ชื่อ Location
+ในตัวอย่างนี้ใช้ข้อมูล location พร้อมพิกัด [ดาวโหลดที่นี่](https://raw.githubusercontent.com/bahar/WorldCityLocations/master/World_Cities_Location_table.sql) นำข้อมูลที่ได้ import เข้า mysql ครับ จากนั้นทำการ gii
+
+ต้นฉบับ [Guide REST Quick Start](http://www.yiiframework.com/doc-2.0/guide-rest-quick-start.html)
+## Create Model
+- นำเข้าข้อมูล location  [ดาวโหลดที่นี่](https://raw.githubusercontent.com/bahar/WorldCityLocations/master/World_Cities_Location_table.sql)
+- gii สร้าง Model ชื่อ Location
+
+ >  หากยังไม่รู้ว่า gii ทำยังไง [ดูได้ที่นี่](http://www.yiiframework.com/doc-2.0/guide-start-gii.html)
 
 ## Create Controller
 ทำการสร้าง `LocationController.php` ไว้ที่ `controllers\` โดยที่ตัว controller จะต้อง extends ด้วย ActiveController ซึ่งเป็น class ที่จะทำให้ LocationController เดิมๆ ของเราสามารถใช้งาน RESTful ได้ จากนั้นเราจะต้องเซ็ต overwrite property `$modelClass` เพื่อบอกว่า model ที่จะใช้ชื่อว่าอะไร อยู่ที่ใหน ซึ่งตอนนี้เราใช้ `app\models\Locations`
