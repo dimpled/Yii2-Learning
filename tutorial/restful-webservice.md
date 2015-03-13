@@ -14,7 +14,13 @@
  >  หากยังไม่รู้ว่า gii ทำยังไง [ดูได้ที่นี่](http://www.yiiframework.com/doc-2.0/guide-start-gii.html)
 
 ## Create Controller
-ทำการสร้าง `LocationController.php` ไว้ที่ `controllers\` โดยที่ตัว controller จะต้อง extends ด้วย ActiveController ซึ่งเป็น class ที่จะทำให้ LocationController เดิมๆ ของเราสามารถใช้งาน RESTful ได้ จากนั้นเราจะต้องเซ็ต overwrite property `$modelClass` เพื่อบอกว่า model ที่จะใช้ชื่อว่าอะไร อยู่ที่ใหน อย่าลืม use ด้วยล่ะ ซึ่งตอนนี้เราใช้ `app\models\Locations`
+ทำการสร้าง `LocationController.php` ไว้ที่ `controllers\` โดยที่ตัว controller จะต้อง extends ด้วย ActiveController ซึ่งเป็น class ที่จะทำให้ LocationController เดิมๆ ของเราสามารถใช้งาน RESTful ได้ จากนั้นเราจะต้องเซ็ต overwrite property
+- `$modelClass` เพื่อบอกว่า model ที่จะใช้ชื่อว่าอะไร อยู่ที่ใหน อย่าลืม use ด้วยล่ะ ซึ่งตอนนี้เราใช้ `app\models\Locations`
+- `serializer`ให้ web service ส่งข้อมูล link หน้าปัจจุบัน,หน้าต่อไป,และหน้าสุดท้ายมาด้วย สะดวกมากๆ
+- `collectionEnvelope` เป็นการตั้งชื่อ collection ครอบตัวข้อมูล location ของเราในที่นี้ตั้งชื่อว่า items
+
+> ตอนนี้อาจจะยังไม่เห็นภาพเดี่ยวพอเห็นข้อมูล Json น่าจะเข้าใจ
+
 ```php
 <?php
 namespace app\controllers;
@@ -25,6 +31,10 @@ use yii\models\Location;
 class LocationController extends ActiveController
 {
     public $modelClass = 'app\models\Locations';
+    public $serializer = [
+        'class' => 'yii\rest\Serializer',
+        'collectionEnvelope' => 'items',
+    ];
 }
 ```
 ## Configuring URL Rule
@@ -97,6 +107,8 @@ class LocationController extends ActiveController
 | DELETE | /location | ลบข้อมูล locaiont ที่ pk = 5
 
 ทดสอบลองเรียกใช้งานผ่าน `curl` ดู เปิด Terminal แล้วพิมพ์คำสั่งนี้ ส่วน windows ต้องติดต้ง curl เพิ่มหากต้องการทดสอบผ่าน curl [ดาวน์โหลดได้ที่นี่](http://curl.haxx.se/download.html) ขอดีของการทดสอบผ่าน curl คือมันสามารถเรียกได้ ทุก method ถ้ารันผ่าน url บน browser มันจะได้แค่ Method `GET`
+
+> สำหรับคนที่ไม่ชอบ Geak ก็ใข้แบบ Gui ได้ครับเป็น extension ของ Chrome Browser [ดาวน์โหลด](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm)
 
 > โปรเจคของผมอยู่ที่ `/yii2/yii2-Leanning-Source` ซึ่ง path ของคุณจะไม่ตรงกับของผมซึ่งก็ขึ้นอยู่กับว่าเราตั้งชื่อว่าอะไร
 
