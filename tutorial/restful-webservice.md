@@ -112,10 +112,17 @@ class LocationController extends ActiveController
 
 > โปรเจคของผมอยู่ที่ `/yii2/yii2-Leanning-Source` ซึ่ง path ของคุณจะไม่ตรงกับของผมซึ่งก็ขึ้นอยู่กับว่าเราตั้งชื่อว่าอะไร
 
+
 ### GET /location
+Url :
+`http://127.0.0.1/yii2/yii2-Leanning-Source/web/location`
+
+เรียกใช้งาน :
 `curl -i -H "Accept:application/json" "http://127.0.0.1/yii2/yii2-Leanning-Source/web/location"`
+
 เป็นการเรียกข้อมูล location โดยใช้ method GET ซึ่งจะเป็นการแสดงข้อมูลของ location ทีละ page
 >  ลองสังเกตตรง header จะมี header link,X-Pagination ขึ้นมา ซึ่งตรงนี้มีค่า url หน้าปัจจุบัน, หน้าต่อไป, หน้าสุดท้าย ผมเข้าใจว่านี้คือ ATEOAS; ฮา...ใครมีรายละเอียดก็ช่วยเพิ่มเติมหน่อยละกันครับ
+
 
 Result
 ```json
