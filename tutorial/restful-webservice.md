@@ -197,6 +197,7 @@ Content-Type: application/json; charset=UTF-8
 เป็นการเรียกข้อมูล location ที่มี primary key  เท่ากับ 5
 
 url
+
 ```
 http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/5
 ```
@@ -217,7 +218,27 @@ Content-Type: application/json; charset=UTF-8
 ```
 
 
-> สำหรับคนที่ไม่ชอบ geek ก็ใข้แบบ Gui ได้ครับเป็น extension ของ Chrome Browser [ดาวน์โหลด](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm) ^^ หลายคนอาจจะนึกในใจว่า ทำไมไม่บอกตั้งแต่แรก....! เอ่อผมอยากให้ททุกคน geek ครับ ฮา สวัสดีครับ...
+### HEAD /location/5
+เป็นการเรียกดูข้อมูล `location` ที่ primary key =  5 และแสดงเฉพาะ header
+
+url
+```
+http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/5
+```
+เรียกใช้งาน
+```
+curl -i -H "Accept:application/json" -XHEAD  "http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/5"
+```
+Result
+```json
+HTTP/1.1 200 OK
+Date: Fri, 13 Mar 2015 10:15:20 GMT
+Server: Apache/2.4.9 (Unix) PHP/5.6.4
+X-Powered-By: PHP/5.6.4
+Content-Type: application/json; charset=UTF-8
+```
+
+> สำหรับคนที่ไม่ชอบ geek ก็ใช้แบบ Gui ได้ครับเป็น extension ของ Chrome Browser [ดาวน์โหลด](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm) ^^ หลายคนอาจจะนึกในใจว่า ทำไมไม่บอกตั้งแต่แรก....! เอ่อผมอยากให้ททุกคน geek ครับ ฮา สวัสดีครับ...
 
 ดูสิใช้งานง่ายมากเลย ...
 ![postman](/images/postman.png)
