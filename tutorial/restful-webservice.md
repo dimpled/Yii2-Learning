@@ -112,14 +112,19 @@ class LocationController extends ActiveController
 
 
 ### GET /location
-Url :
-`http://127.0.0.1/yii2/yii2-Leanning-Source/web/location`
-
-เรียกใช้งาน :
-`curl -i -H "Accept:application/json" "http://127.0.0.1/yii2/yii2-Leanning-Source/web/location"`
-
 เป็นการเรียกข้อมูล location โดยใช้ method GET ซึ่งจะเป็นการแสดงข้อมูลของ location ทีละ page
->  ลองสังเกตตรง header จะมี header link,X-Pagination ขึ้นมา ซึ่งตรงนี้มีค่า url หน้าปัจจุบัน, หน้าต่อไป, หน้าสุดท้าย ผมเข้าใจว่านี้คือ ATEOAS; ฮา...ใครมีรายละเอียดก็ช่วยเพิ่มเติมหน่อยละกันครับ
+
+Url
+```
+http://127.0.0.1/yii2/yii2-Leanning-Source/web/location
+```
+
+เรียกใช้งาน
+```
+curl -i -H "Accept:application/json" "http://127.0.0.1/yii2/yii2-Leanning-Source/web/location"
+```
+
+>  ลองสังเกตตรง header จะมี header link,X-Pagination ขึ้นมา ซึ่งตรงนี้มีค่า url หน้าปัจจุบัน, หน้าต่อไป, หน้าสุดท้าย ผมเข้าใจว่านี้คือ [ATEOAS;](http://en.wikipedia.org/wiki/HATEOAS) ซื่ง web service ส่วนใหญ่จะมีแค่ data ออกมาเท่านั้นจะไม่มี ATEOAS; ซึ่ง Yii 2 มี  ฮา...ใครมีรายละเอียดก็ช่วยเพิ่มเติมหน่อยละกันครับ
 
 
 Result
@@ -140,7 +145,16 @@ Content-Type: application/json; charset=UTF-8
 ```
 
 ### GET /location/5
-`curl -i -H "Accept:application/json" "http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/5"`
+เป็นการเรียกข้อมูล location ที่มี primary key  เท่ากับ 5
+url
+```
+http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/5
+```
+เรียกใช้งาน
+```
+curl -i -H "Accept:application/json" "http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/5"
+```
+Result
 ```json
 HTTP/1.1 200 OK
 Date: Thu, 12 Mar 2015 17:54:52 GMT
