@@ -108,8 +108,6 @@ class LocationController extends ActiveController
 
 ทดสอบลองเรียกใช้งานผ่าน `curl` ดู เปิด Terminal แล้วพิมพ์คำสั่งนี้ ส่วน windows ต้องติดต้ง curl เพิ่มหากต้องการทดสอบผ่าน curl [ดาวน์โหลดได้ที่นี่](http://curl.haxx.se/download.html) ขอดีของการทดสอบผ่าน curl คือมันสามารถเรียกได้ ทุก method ถ้ารันผ่าน url บน browser มันจะได้แค่ Method `GET`
 
-> สำหรับคนที่ไม่ชอบ Geak ก็ใข้แบบ Gui ได้ครับเป็น extension ของ Chrome Browser [ดาวน์โหลด](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm)
-
 > โปรเจคของผมอยู่ที่ `/yii2/yii2-Leanning-Source` ซึ่ง path ของคุณจะไม่ตรงกับของผมซึ่งก็ขึ้นอยู่กับว่าเราตั้งชื่อว่าอะไร
 
 
@@ -153,3 +151,9 @@ Content-Type: application/json; charset=UTF-8
 
 {"id":5,"country":"Afghanistan","city":"Jalalabad","latitude":34.42,"longitude":70.4499969,"altitude":573}%
 ```
+
+
+> สำหรับคนที่ไม่ชอบ geek ก็ใข้แบบ Gui ได้ครับเป็น extension ของ Chrome Browser [ดาวน์โหลด](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm) ^^ หลายคนอาจจะนึกในใจว่า ทำไมไม่บอกตั้งแต่แรก....! เอ่อผมอยากให้ททุกคน geek ครับ ฮา สวัสดีครับ...
+
+ดูสิใช้งานง่ายมากเลย ...
+![postman](/images/postman.png)
