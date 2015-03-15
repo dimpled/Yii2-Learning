@@ -112,7 +112,7 @@ class LocationController extends ActiveController
 
 
 ### GET /location
-เป็นการเรียกข้อมูล location โดยใช้ method GET ซึ่งจะเป็นการแสดงข้อมูลของ location ทีละ page
+เป็นการเรียกข้อมูล location โดยใช้ method GET ซึ่งจะเป็นการแสดงข้อมูลของ location ทีละ page เทียบได้กับ sql `select * from location limit 20 offset 0`
 
 Url
 ```
@@ -168,7 +168,7 @@ Content-Type: application/xml; charset=UTF-8
 ```
 
 ### HEAD /location
-เป็นการเรียกดูข้อมูลเฉพาะ header
+เป็นการเรียกดูข้อมูล `location` ทีละ page โดยใช้ method GET ซึ่งจะเป็นการแสดงข้อมูลของ location ทีละ page เทียบได้กับ sql `select * from location limit 20 offset 0`
 
 Url
 ```
@@ -193,10 +193,11 @@ Link: <http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/index?page=1>; re
 Content-Type: application/json; charset=UTF-8
 ```
 
-### GET /location/5
-เป็นการเรียกข้อมูล location ที่มี primary key  เท่ากับ 5
+### FIND : GET /location/5
+ค้นหาข้อมูล `location` ที่ primary key = 5
+เทียบได้กับ sql `select * from location where id =5`
 
-url
+####url
 
 ```
 http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/5
@@ -218,9 +219,9 @@ Content-Type: application/json; charset=UTF-8
 ```
 
 
-### HEAD /location/5
-เป็นการเรียกดูข้อมูล `location` ที่ primary key =  5 และแสดงเฉพาะ header
-
+### FIND BY ID : HEAD /location/5
+ค้นหาข้อมูล `location` ที่ primary key =  5 และแสดงข้อมูลเฉพาะ header
+เทียบได้กับ sql `select * from location where id =5` แต่จะไม่ได้ถูกนำมาแสดง
 url
 ```
 http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/5
@@ -236,6 +237,29 @@ Date: Fri, 13 Mar 2015 10:15:20 GMT
 Server: Apache/2.4.9 (Unix) PHP/5.6.4
 X-Powered-By: PHP/5.6.4
 Content-Type: application/json; charset=UTF-8
+```
+
+## CREATE : POST /location
+เป็นการเพิ่มข้อมูล
+url
+```
+http://127.0.0.1/yii2/yii2-Leanning-Source/web/location
+```
+เรียกใช้งาน
+```
+curl -i -H "Accept:application/json" -H "Content-Type:application/json" -XPOST "http://127.0.0.1/yii2/yii2-Leanning-Source/web/location" -d '{"id":null,"country":"Thailand","city":"Jalalabad","latitude":34.42,"longitude":70.4499969,"altitude":573}'
+```
+result
+```json
+HTTP/1.1 201 Created
+Date: Sun, 15 Mar 2015 01:50:40 GMT
+Server: Apache/2.4.9 (Unix) PHP/5.6.4
+X-Powered-By: PHP/5.6.4
+Location: http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/10570
+Content-Length: 107
+Content-Type: application/json; charset=UTF-8
+
+{"country":"Thailand","city":"Jalalabad","latitude":34.42,"longitude":70.4499969,"altitude":573,"id":10570}%  
 ```
 
 > สำหรับคนที่ไม่ชอบ geek ก็ใช้แบบ Gui ได้ครับเป็น extension ของ Chrome Browser [ดาวน์โหลด](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm) ^^ หลายคนอาจจะนึกในใจว่า ทำไมไม่บอกตั้งแต่แรก....! เอ่อผมอยากให้ททุกคน geek ครับ ฮา สวัสดีครับ...
