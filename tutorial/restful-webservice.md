@@ -215,10 +215,54 @@ Content-Type: application/json; charset=UTF-8
 
 {"country":"Thailand","city":"Jalalabad","latitude":34.42,"longitude":70.4499969,"altitude":573,"id":10570}%  
 ```
-## METHOD : HEAD
-ตรงนี้ยังไม่แน่ใจนะครับว่าเอาไว้ทำอะไรเพราะมันจะแสดงข้อมูลแค่ Header 
 
-### FIND : HEAD /location
+# METHOD : PATCT,PUT  /location/delete/10570
+เป็นการแก้ไขข้อมูลที่ primary key = 10570 และส่งข้อมูลที่จะแก้ไขไปด้วย
+url
+```
+http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/update/10574
+```
+เรียกใช้งาน
+```
+curl -i -H "Accept:application/json" -H "Content-Type:application/json" -XPATCH "http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/update/10574" -d '{"country":"Thailand","city":"Jalalabad","latitude":34.42,"longitude":70.4499969,"altitude":573}'
+```
+Result
+```
+HTTP/1.1 200 OK
+Date: Sun, 15 Mar 2015 07:04:34 GMT
+Server: Apache/2.4.9 (Unix) PHP/5.6.4
+X-Powered-By: PHP/5.6.4
+Content-Length: 111
+Content-Type: application/json; charset=UTF-8
+
+{"id":10574,"country":"ThailandXXXX","city":"Jalalabad","latitude":34.42,"longitude":70.4499969,"altitude":573}%   
+```
+
+
+# METHOD : DELETD /location/delete/10570
+เป็นการลบข้อมูลโดยอ้างไปที่ primary key = 10570
+url
+```
+http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/delete/10570
+```
+เรียกใช้งาน
+```
+curl -i -H "Accept:application/json" -H "Content-Type:application/json" -XDELETE "http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/delete/10570"
+```
+Result
+```json
+HTTP/1.1 204 No Content
+Date: Sun, 15 Mar 2015 06:55:55 GMT
+Server: Apache/2.4.9 (Unix) PHP/5.6.4
+X-Powered-By: PHP/5.6.4
+Content-Length: 0
+Content-Type: application/json; charset=UTF-8
+```
+
+# METHOD : HEAD
+ตรงนี้ยังไม่แน่ใจนะครับว่าเอาไว้ทำอะไรเพราะมันจะแสดงข้อมูลแค่ Header
+
+## FIND : HEAD /location
 เป็นการเรียกดูข้อมูล `location` ทีละ page โดยใช้ method HEAD ซึ่งจะเป็นการแสดงข้อมูลของ location ทีละ page แต่แสดงแค่ header  เทียบได้กับ sql `select * from location limit 20 offset 0`
 
 Url
@@ -245,7 +289,7 @@ Content-Type: application/json; charset=UTF-8
 ```
 
 
-### FIND BY ID : HEAD /location/5
+## FIND BY ID : HEAD /location/5
 ค้นหาข้อมูล `location` ที่ primary key =  5 โดยใช้ method HEAD และแสดงข้อมูลเฉพาะ header
 เทียบได้กับ sql `select * from location where id =5` แต่จะไม่ได้ถูกนำมาแสดง
 url
