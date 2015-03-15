@@ -167,32 +167,6 @@ Content-Type: application/xml; charset=UTF-8
 <response><items><item><id>1</id><country>Afghanistan</country><city>Kabul</city><latitude>34.5166667</latitude><longitude>69.1833344</longitude><altitude>1808</altitude></item><item><id>2</id><country>Afghanistan</country><city>Kandahar</city><latitude>31.61</latitude><longitude>65.6999969</longitude><altitude>1015</altitude></item><item><id>3</id><country>Afghanistan</country><city>Mazar-e Sharif</city><latitude>36.7069444</latitude><longitude>67.1122208</longitude><altitude>369</altitude></item><item><id>4</id><country>Afghanistan</country><city>Herat</city><latitude>34.34</latitude><longitude>62.1899986</longitude><altitude>927</altitude></item><item><id>5</id><country>Afghanistan</country><city>Jalalabad</city><latitude>34.42</latitude><longitude>70.4499969</longitude><altitude>573</altitude></item><item><id>6</id><country>Afghanistan</country><city>Konduz</city><latitude>36.72</latitude><longitude>68.8600006</longitude><altitude>394</altitude></item><item><id>7</id><country>Afghanistan</country><city>Ghazni</city><latitude>33.5535554</latitude><longitude>68.4268875</longitude><altitude>2175</altitude></item><item><id>8</id><country>Afghanistan</country><city>Balkh</city><latitude>36.7586111</latitude><longitude>66.8961105</longitude><altitude>328</altitude></item><item><id>9</id><country>Afghanistan</country><city>Baghlan</city><latitude>36.12</latitude><longitude>68.6999969</longitude><altitude>565</altitude></item><item><id>10</id><country>Afghanistan</country><city>Gardez</city><latitude>33.59</latitude><longitude>69.2200012</longitude><altitude>2279</altitude></item><item><id>11</id><country>Afghanistan</country><city>Khost</city><latitude>33.3380556</latitude><longitude>69.9202805</longitude><altitude>1178</altitude></item><item><id>12</id><country>Afghanistan</country><city>Khanabad</city><latitude>36.68</latitude><longitude>69.1100006</longitude><altitude>490</altitude></item><item><id>13</id><country>Afghanistan</country><city>Tashqorghan</city><latitude>36.6952778</latitude><longitude>67.6980591</longitude><altitude>460</altitude></item><item><id>14</id><country>Afghanistan</country><city>Taloqan</city><latitude>36.7360511</latitude><longitude>69.5345078</longitude><altitude>788</altitude></item><item><id>15</id><country>Afghanistan</country><city>Cool urhajo</city><latitude>34.2654452</latitude><longitude>67.3451614</longitude><altitude>2733</altitude></item><item><id>16</id><country>Afghanistan</country><city>Pol-e Khomri</city><latitude>35.9425</latitude><longitude>68.7191696</longitude><altitude>832</altitude></item><item><id>17</id><country>Afghanistan</country><city>Sheberghan</city><latitude>36.6672222</latitude><longitude>65.7536087</longitude><altitude>362</altitude></item><item><id>18</id><country>Afghanistan</country><city>Charikar</city><latitude>35.013611</latitude><longitude>69.1713867</longitude><altitude>1534</altitude></item><item><id>19</id><country>Afghanistan</country><city>Sar-e Pol</city><latitude>36.2155556</latitude><longitude>65.9363861</longitude><altitude>629</altitude></item><item><id>20</id><country>Afghanistan</country><city>Paghman</city><latitude>34.5875</latitude><longitude>68.953331</longitude><altitude>2276</altitude></item></items><_links><self><href>http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/index?page=1</href></self><next><href>http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/index?page=2</href></next><last><href>http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/index?page=529</href></last></_links><_meta><totalCount>10567</totalCount><pageCount>529</pageCount><currentPage>1</currentPage><perPage>20</perPage></_meta></response>
 ```
 
-### FIND : HEAD /location
-เป็นการเรียกดูข้อมูล `location` ทีละ page โดยใช้ method HEAD ซึ่งจะเป็นการแสดงข้อมูลของ location ทีละ page แต่แสดงแค่ header  เทียบได้กับ sql `select * from location limit 20 offset 0`
-
-Url
-```
-http://127.0.0.1/yii2/yii2-Leanning-Source/web/location
-```
-เรียกใช้งาน
-```
-curl -i -H "Accept:application/json" -XHEAD "http://127.0.0.1/yii2/yii2-Leanning-Source/web/location"
-```
-Result
-สังเกตดูจะไม่มีข้อมูลนะครับ จะมีแค่ header
-```json
-HTTP/1.1 200 OK
-Date: Fri, 13 Mar 2015 04:40:46 GMT
-Server: Apache/2.4.9 (Unix) PHP/5.6.4
-X-Powered-By: PHP/5.6.4
-X-Pagination-Total-Count: 10567
-X-Pagination-Page-Count: 529
-X-Pagination-Current-Page: 1
-X-Pagination-Per-Page: 20
-Link: <http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/index?page=1>; rel=self, <http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/index?page=2>; rel=next, <http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/index?page=529>; rel=last
-Content-Type: application/json; charset=UTF-8
-```
-
 ### FIND : GET /location/5
 ค้นหาข้อมูล `location` ที่ primary key = 5 โดยใช้ method GET
 เทียบได้กับ sql `select * from location where id =5`
@@ -219,26 +193,6 @@ Content-Type: application/json; charset=UTF-8
 ```
 
 
-### FIND BY ID : HEAD /location/5
-ค้นหาข้อมูล `location` ที่ primary key =  5 โดยใช้ method HEAD และแสดงข้อมูลเฉพาะ header
-เทียบได้กับ sql `select * from location where id =5` แต่จะไม่ได้ถูกนำมาแสดง
-url
-```
-http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/5
-```
-เรียกใช้งาน
-```
-curl -i -H "Accept:application/json" -XHEAD  "http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/5"
-```
-Result
-```json
-HTTP/1.1 200 OK
-Date: Fri, 13 Mar 2015 10:15:20 GMT
-Server: Apache/2.4.9 (Unix) PHP/5.6.4
-X-Powered-By: PHP/5.6.4
-Content-Type: application/json; charset=UTF-8
-```
-
 ## CREATE : POST /location
 เป็นการเพิ่มข้อมูล โดยใช้ method POST และต้องแนบข้อมูลที่จะเพิ่มมาด้วย
 url
@@ -260,6 +214,55 @@ Content-Length: 107
 Content-Type: application/json; charset=UTF-8
 
 {"country":"Thailand","city":"Jalalabad","latitude":34.42,"longitude":70.4499969,"altitude":573,"id":10570}%  
+```
+## METHOD : HEAD
+ตรงนี้ยังไม่แน่ใจนะครับว่าเอาไว้ทำอะไรเพราะมันจะแสดงข้อมูลแค่ Header 
+
+### FIND : HEAD /location
+เป็นการเรียกดูข้อมูล `location` ทีละ page โดยใช้ method HEAD ซึ่งจะเป็นการแสดงข้อมูลของ location ทีละ page แต่แสดงแค่ header  เทียบได้กับ sql `select * from location limit 20 offset 0`
+
+Url
+```
+http://127.0.0.1/yii2/yii2-Leanning-Source/web/location
+```
+เรียกใช้งาน
+```
+curl -i -H "Accept:application/json" -XHEAD "http://127.0.0.1/yii2/yii2-Leanning-Source/web/location"
+```
+Result
+สังเกตดูจะไม่มีข้อมูลนะครับ จะมีแค่ header
+```json
+HTTP/1.1 200 OK
+Date: Fri, 13 Mar 2015 04:40:46 GMT
+Server: Apache/2.4.9 (Unix) PHP/5.6.4
+X-Powered-By: PHP/5.6.4
+X-Pagination-Total-Count: 10567
+X-Pagination-Page-Count: 529
+X-Pagination-Current-Page: 1
+X-Pagination-Per-Page: 20
+Link: <http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/index?page=1>; rel=self, <http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/index?page=2>; rel=next, <http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/index?page=529>; rel=last
+Content-Type: application/json; charset=UTF-8
+```
+
+
+### FIND BY ID : HEAD /location/5
+ค้นหาข้อมูล `location` ที่ primary key =  5 โดยใช้ method HEAD และแสดงข้อมูลเฉพาะ header
+เทียบได้กับ sql `select * from location where id =5` แต่จะไม่ได้ถูกนำมาแสดง
+url
+```
+http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/5
+```
+เรียกใช้งาน
+```
+curl -i -H "Accept:application/json" -XHEAD  "http://127.0.0.1/yii2/yii2-Leanning-Source/web/location/5"
+```
+Result
+```json
+HTTP/1.1 200 OK
+Date: Fri, 13 Mar 2015 10:15:20 GMT
+Server: Apache/2.4.9 (Unix) PHP/5.6.4
+X-Powered-By: PHP/5.6.4
+Content-Type: application/json; charset=UTF-8
 ```
 
 > สำหรับคนที่ไม่ชอบ geek ก็ใช้แบบ Gui ได้ครับเป็น extension ของ Chrome Browser [ดาวน์โหลด](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm) ^^ หลายคนอาจจะนึกในใจว่า ทำไมไม่บอกตั้งแต่แรก....! เอ่อผมอยากให้ททุกคน geek ครับ ฮา สวัสดีครับ...
