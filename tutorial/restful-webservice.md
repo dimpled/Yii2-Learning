@@ -235,7 +235,7 @@ X-Powered-By: PHP/5.6.4
 Content-Length: 111
 Content-Type: application/json; charset=UTF-8
 
-{"id":10574,"country":"ThailandXXXX","city":"Jalalabad","latitude":34.42,"longitude":70.4499969,"altitude":573}%   
+{"id":10574,"country":"Thailand","city":"Jalalabad","latitude":34.42,"longitude":70.4499969,"altitude":573}%   
 ```
 
 
