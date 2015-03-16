@@ -4,15 +4,15 @@ Yii2 Framework Tutorial ตั้งใจทำขึ้นเพื่อแ�
 [Download Source Code](https://github.com/dimpled/Yii2-Learning-Source)
 
 ##Getting Started
- - [การติดตั้ง (Installation)](https://github.com/dimpled/Yii2-Learning/blob/master/Chapter%201/Installation.md)
+ - [การติดตั้ง (Installation)](/Chapter%201/Installation.md)
 
 ## Widgets
- - [การติดตั้ง GridView + Export Menu](https://github.com/dimpled/Yii2-Learning/blob/master/widgets/install-krajee-yii2-grid.md)
- - [เพิ่ม Botton Group ใน GridView](https://github.com/dimpled/Yii2-Learning/blob/master/widgets/gridview-button.md)
+ - [การติดตั้ง GridView + Export Menu](/widgets/install-krajee-yii2-grid.md)
+ - [เพิ่ม Botton Group ใน GridView](/widgets/gridview-button.md)
 
 ##Tutorial
-- [เปิดการใช้งาน Pretty urls (mod_rewrite)](https://github.com/dimpled/Yii2-Learning/blob/master/tutorial/modrewrite.md)
-- [RESTful Web Service](https://github.com/dimpled/Yii2-Learning/blob/master/tutorial/restful-webservice.md)
+- [เปิดการใช้งาน Pretty urls (mod_rewrite)](/tutorial/modrewrite.md)
+- [RESTful Web Service](/tutorial/restful-webservice.md)
 - Upload File
 - การสร้าง Theme
-- รวมคำสั่งการใช้งาน Query ใน Model ที่ใช้บ่อย
+- [รวมคำสั่งการใช้งาน Query ใน Model ที่ใช้บ่อย](/tutorial/query-model.md)
