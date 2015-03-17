@@ -112,6 +112,7 @@ SELECT * FROM `tbl_user` ORDER BY `usertype`, `username` DESC LIMIT 10
 ## asArray()
 รับค่าข้อมูลกลับมาในรูปแบบของ Array ซึ่งปกติเราจะได้ในรูปแบบ Object
 > ! หากใช้ asArray() เราจะไม่สามารถเรียกใช้งาน $model->username แบบนี้ได้ ต้องเป็น $model['username']  ต้องเลือกให้เหมาะกันงานที่จะนำมาใช้นะครับ
+
 ```php
 $model = User::find()
 	->asArray()
