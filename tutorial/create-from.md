@@ -51,13 +51,19 @@ use yii\bootstrap\ActiveForm;
 
 > เราจะแบ่งคอลัมน์สูงสุดได้เพียง 12 คอลัมน์
 
-### แบ่ง 2 คอลัมน์ สำหรับหน้าจอ Tablets
+### แบ่ง 2 คอลัมน์ สำหรับหน้าจอ  Mobile และ Tablets
+
+จะได้ 2 คอลัมน์ทั้ง 2 หน้าจอ
 
 ```html
 <div class="row">
-  <div class="col-md-6">column 1</div>
-  <div class="col-md-6">column 2</div>
-<div>
+    <div class="col-sm-6 col-md-6">
+       <?= $form->field($model, 'position_id')->textInput() ?>
+    </div>
+    <div class="col-sm-6 col-md-6">
+       <?= $form->field($model, 'mobile_phone')->textInput(['maxlength' => 20]) ?>
+    </div>
+</div>
 ```
 
 ### แบ่ง 3 คอลัมน์ สำหรับหน้าจอ Mobile, Tablets และ Desktop
