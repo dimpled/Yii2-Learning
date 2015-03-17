@@ -14,5 +14,5 @@ Yii2 Framework Tutorial ตั้งใจทำขึ้นเพื่อแ�
 ##Tutorial
 - [เปิดการใช้งาน Pretty urls (mod_rewrite)](/tutorial/modrewrite.md)
 - [RESTful Web Service](/tutorial/restful-webservice.md)
-- Upload File
+- การใช้งานฟอร์มแบบต่างๆ และการอัพโหลดไฟล์
 - การสร้าง Theme
