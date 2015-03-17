@@ -384,3 +384,6 @@ $model = User::findBySql($sql)->all();
 $sql = 'SELECT * FROM tbl_user';
 $model = User::findBySql($sql)->all();
 ```
+
+
+[ที่มา](http://www.bsourcecode.com/yiiframework2/select-query-model/#where)
