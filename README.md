@@ -7,6 +7,7 @@ Yii2 Framework Tutorial ตั้งใจทำขึ้นเพื่อแ�
  - [การติดตั้ง (Installation)](/Chapter%201/Installation.md)
  - [รวมคำสั่งการใช้งาน Query ใน Model ที่ใช้บ่อย](/Chapter%201/query-model.md)
 
+
 ## Widgets
  - [การติดตั้ง GridView + Export Menu](/widgets/install-krajee-yii2-grid.md)
  - [เพิ่ม Botton Group ใน GridView](/widgets/gridview-button.md)
@@ -14,5 +15,5 @@ Yii2 Framework Tutorial ตั้งใจทำขึ้นเพื่อแ�
 ##Tutorial
 - [เปิดการใช้งาน Pretty urls (mod_rewrite)](/tutorial/modrewrite.md)
 - [RESTful Web Service](/tutorial/restful-webservice.md)
-- การใช้งานฟอร์มแบบต่างๆ และการอัพโหลดไฟล์
 - การสร้าง Theme
+- [การสร้างฟอร์ม, การจัด layout, การ upload file](/tutorial/create-form.md)
