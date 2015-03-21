@@ -51,7 +51,7 @@ use kartik\widgets\DepDrop;
 
 ## สร้าง DropdownList จังหวัด
 ในการเรียกข้อมูลเพื่อมาใช้กับ DropdownList โดยเรียกผ่าน model นั้นเราจะเป็นจะต้องใช้ `ArrayHelper` เพื่อสร้าง array ที่สามารถใช้กับ dropdownList ได้ โดยใช้ `ArrayHelper::map("model","ชื่อฟิวด์รหัส","ชื่อฟิวด์ที่เป็นข้อความ")`
-```
+```php
 ArrayHelper::map(Province::find()->all(),
 'PROVINCE_ID',
 'PROVINCE_NAME')
@@ -84,8 +84,8 @@ array(
 > ตอนนี้เราตั้ง id dropdownlist `ddl-province`
 
 ## สร้าง DropdownList อำเภอ
-เราจะใช้ widget `DepDrop` เพื่อทำการสร้าง dropdownlist อำเภอว่างๆ ไว้เพื่อรอให้มีการส่งข้อมูลมา ซึ่งตัว dropdownList อำเภอจะมีการกำหนด 3 ตัวคือ
-- `data` ตรงนี้เอาไว้ใชดึงข้อมูลมาแสดงในกรณี `update` เพื่อให้แสดงค่าว่าเราได้เลือกอำเภอใหนแต่ตอนนี้ใส่เป็น array ว่างๆ ไว้ก่อน
+เราจะใช้ widget `DepDrop` เพื่อทำการสร้าง dropdownlist และกำหนดชื่อเป็น `ddl-amphur`  ซึ่งจะอำเภอว่างๆ ไว้เพื่อรอให้มีการส่งข้อมูลมา ซึ่งตัว dropdownList อำเภอจะมีการกำหนดค่า 3 ตัวคือ
+- `data` ตรงนี้เอาไว้ใช้รับมูลมาแสดงในกรณี `update` เพื่อให้แสดงค่าว่าเราได้เลือกอำเภอใหนแต่ตอนนี้ใส่เป็น array ว่างๆ ไว้ก่อน
 - `depends` เป็นการระบบชื่อ dropdownlist จังหวัดเพื่อจับ event เมื่อมีการคลิกเลือกจังหวัด
 - `url` เป็นการระบุชื่อ action ที่จะให้ dropdownlist ไปเรียกข้อมูลอำเภอ
 
@@ -105,3 +105,17 @@ array(
 
 
 ## สร้าง DropdownList ตำบล
+การกำหนดค่าจะคล้ายกับ อำเภอ แต่ต่างกันที่ `depends` จะมีการกำหนดค่าชื่อไว้สองตัวคือ ชือ dropdownlist จังหวัดและ dropdownlist อำเภอ
+```php
+<?= $form->field($model, 'district')->widget(DepDrop::classname(), [
+           'data' =>$district,
+           'pluginOptions'=>[
+               'depends'=>['ddl-province', 'ddl-amphur'],
+               'placeholder'=>'เลือกตำบล...',
+               'url'=>Url::to(['/employee/get-district'])
+           ]
+]); ?>
+```
+เราจะได้ form แบบนี้
+
+![deropdown](/images/depdrop-all.png)
