@@ -49,7 +49,7 @@ use yii\helpers\ArrayHelper;
 use kartik\widgets\DepDrop;
 ```
 
-### สร้าง DropdownList จังหวัด
+## สร้าง DropdownList จังหวัด
 ในการเรียกข้อมูลเพื่อมาใช้กับ DropdownList โดยเรียกผ่าน model นั้นเราจะเป็นจะต้องใช้ `ArrayHelper` เพื่อสร้าง array ที่สามารถใช้กับ dropdownList ได้ โดยใช้ `ArrayHelper::map("model","ชื่อฟิวด์รหัส","ชื่อฟิวด์ที่เป็นข้อความ")`
 ```
 ArrayHelper::map(Province::find()->all(),
@@ -80,3 +80,28 @@ array(
 ซึ่งก็จะเห็นว่าเราสามารถเลือกจังหวัดได้แล้ว
 
 ![deropdown](/images/province-view.png)
+
+> ตอนนี้เราตั้ง id dropdownlist `ddl-province`
+
+## สร้าง DropdownList อำเภอ
+เราจะใช้ widget `DepDrop` เพื่อทำการสร้าง dropdownlist อำเภอว่างๆ ไว้เพื่อรอให้มีการส่งข้อมูลมา ซึ่งตัว dropdownList อำเภอจะมีการกำหนด 3 ตัวคือ
+- `data` ตรงนี้เอาไว้ใชดึงข้อมูลมาแสดงในกรณี `update` เพื่อให้แสดงค่าว่าเราได้เลือกอำเภอใหนแต่ตอนนี้ใส่เป็น array ว่างๆ ไว้ก่อน
+- `depends` เป็นการระบบชื่อ dropdownlist จังหวัดเพื่อจับ event เมื่อมีการคลิกเลือกจังหวัด
+- `url` เป็นการระบุชื่อ action ที่จะให้ dropdownlist ไปเรียกข้อมูลอำเภอ
+
+โดยกำหนดค่าดังนี้
+
+```php
+<?= $form->field($model, 'amphur')->widget(DepDrop::classname(), [
+            'options'=>['id'=>'ddl-amphur'],
+            'data'=> [],
+            'pluginOptions'=>[
+                'depends'=>['ddl-province'],
+                'placeholder'=>'เลือกอำเภอ...',
+                'url'=>Url::to(['/employee/get-amphur'])
+            ]
+        ]); ?>
+```
+
+
+## สร้าง DropdownList ตำบล
