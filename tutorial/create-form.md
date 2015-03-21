@@ -118,13 +118,21 @@ composer require --prefer-dist yiisoft/yii2-jui
 "yiisoft/yii2-jui": "~2.0.0"
 ```
 
-เพิ่มที่ไฟล์ `composer.json` .
+เพิ่มที่ไฟล์ `composer.json` แล้วรันคำสั่งคอมมาน `composer update`
+- `dateFormat` จัด format date ที่จะทำการบันทึก
+- `changeMonth` ให้มีตัวเลือกเดือน
+- `changeYear` ให้มีตัวเลือกปี
 
 
  ```php
- <?= $form->field($model, 'birthday')->widget(\yii\jui\DatePicker::classname(), [
-      'language' => 'th',
-      'dateFormat' => 'dd-MM-yyyy',
-]) ?>
+ <?= $form->field($model, 'birthday')->widget(DatePicker::classname(), [
+        'language' => 'th',
+        'dateFormat' => 'yyyy-MM-dd',
+        'clientOptions'=>[
+          'changeMonth'=>true,
+          'changeYear'=>true,
+        ],
+        'options'=>['class'=>'form-control']
+      ]) ?>
 
 ```
