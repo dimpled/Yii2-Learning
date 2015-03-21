@@ -260,7 +260,7 @@ action actionGetAmphur() ข้างใน function จะมีการเร
 ]); ?>
 ```
 
-อีกอย่างอย่างลือสร้างตัวแปร array ปล่าวให้กับ /views/employee/create.php เพื่อในตอน create จะได้ไม่ error ตัวแปรไม่ได้ถูกสร้าง
+อีกอย่างอย่างลืมสร้างตัวแปร array ว่างๆ ให้กับ /views/employee/create.php เพื่อในตอน create จะได้ไม่ error ตัวแปรไม่ได้ถูกสร้าง
 
 ```php
 <?= $this->render('_form', [
