@@ -84,9 +84,9 @@ array(
 > ตอนนี้เราตั้ง id dropdownlist `ddl-province`
 
 ## สร้าง DropdownList อำเภอ
-เราจะใช้ widget `DepDrop` เพื่อทำการสร้าง dropdownlist และกำหนดชื่อเป็น `ddl-amphur`  ซึ่งจะอำเภอว่างๆ ไว้เพื่อรอให้มีการส่งข้อมูลมา ซึ่งตัว dropdownList อำเภอจะมีการกำหนดค่า 3 ตัวคือ
+เราจะใช้ widget `DepDrop` เพื่อทำการสร้าง dropdownlist และกำหนดชื่อเป็น `ddl-amphur`  ซึ่งจะเป็นอำเภอว่างๆ ไว้เพื่อรอให้มีการส่งข้อมูลมา ซึ่งตัว dropdownList อำเภอจะมีการกำหนดค่า 3 ตัวคือ
 - `data` ตรงนี้เอาไว้ใช้รับมูลมาแสดงในกรณี `update` เพื่อให้แสดงค่าว่าเราได้เลือกอำเภอใหนแต่ตอนนี้ใส่เป็น array ว่างๆ ไว้ก่อน
-- `depends` เป็นการระบบชื่อ dropdownlist จังหวัดเพื่อจับ event เมื่อมีการคลิกเลือกจังหวัด
+- `depends` เป็นการระบุชื่อ dropdownlist จังหวัดเพื่อจับ event เมื่อมีการคลิกเลือกจังหวัด
 - `url` เป็นการระบุชื่อ action ที่จะให้ dropdownlist ไปเรียกข้อมูลอำเภอ
 
 โดยกำหนดค่าดังนี้
@@ -108,7 +108,7 @@ array(
 การกำหนดค่าจะคล้ายกับ อำเภอ แต่ต่างกันที่ `depends` จะมีการกำหนดค่าชื่อไว้สองตัวคือ ชือ dropdownlist จังหวัดและ dropdownlist อำเภอ
 ```php
 <?= $form->field($model, 'district')->widget(DepDrop::classname(), [
-           'data' =>$district,
+           'data' =>[],
            'pluginOptions'=>[
                'depends'=>['ddl-province', 'ddl-amphur'],
                'placeholder'=>'เลือกตำบล...',
@@ -119,3 +119,7 @@ array(
 เราจะได้ form แบบนี้
 
 ![deropdown](/images/depdrop-all.png)
+
+แต่ตอนนี้จะยังใช้งานไม่ได้เพราะเรายังไม่ได้สร้าง action เพื่อรองรับการค้นข้อมูลและส่งข้อมูลให้กับ dropdownlist
+
+## สร้าง Action เพื่อรองรับการคลิกเลือกจังหวัดและอำเภอ
