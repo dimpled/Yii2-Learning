@@ -5,6 +5,8 @@
 ![dependent](/images/depdrop.png)
 
 ## หลักการทำงาน
+เราจะทำการสร้าง DropdownList ไวัทั้งหมด 3 ตัว ตัวแรก จังหวัดจะเป็น DropdownList ธรรมดา และดึงข้อมูลจังหวัดมาแสดง ส่วนอีก 2 ตัวที่เลือกจะทำการเรียกข้อมูลผ่าน request ajax เมื่อมีการคลิกเลือกอำเภอและตำบลตามลำดับ 
+
 ![deropdown](/images/dropdown-flow.png)
 
 
@@ -133,8 +135,8 @@ public function actionGetAmphur() {
      if (isset($_POST['depdrop_parents'])) {
          $parents = $_POST['depdrop_parents'];
          if ($parents != null) {
-             $cat_id = $parents[0];
-             $out = $this->getAmphur($cat_id);
+             $province_id = $parents[0];
+             $out = $this->getAmphur($province_id);
              echo Json::encode(['output'=>$out, 'selected'=>'']);
              return;
          }
