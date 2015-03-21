@@ -1,6 +1,6 @@
 การสร้าง Dropdown เพื่อสร้างตัวเลือก จังหวัด, อำเภอ, ตำบล
 ---------------------------
-ในตัวอย่างนี้จะเป็นใช้ widget [Dependent Dropdown Widget](http://demos.krajee.com/widgets#depdrop) ของ krajee เพราะสามารถใช้งานได้ง่ายๆ แค่สร้าง action ตามที่ widget กำหนดโดยที่ไม่ต้องไปยุ่งกับ javascript มากมายเพราะ widget ทำไว้ให้หมดแล้ว เรามีหน้าที่ `config` ให้มันรู้ว่า action ใหนที่จะไปดึงข้อมูลอำเภอ action ใหนจะไปดึงข้อมูลตำบล
+ในตัวอย่างนี้จะเป็นใช้ widget [Dependent Dropdown Widget](http://demos.krajee.com/widgets#depdrop) ของ krajee เพราะสามารถใช้งานได้ง่ายๆ เพียงแค่สร้าง action ตามที่ widget กำหนดโดยที่ไม่ต้องไปยุ่งกับ javascript มากมายเพราะ widget ทำไว้ให้หมดแล้ว เรามีหน้าที่ `config` ให้มันรู้ว่า action ใหนที่จะไปดึงข้อมูลอำเภอ action ใหนจะไปดึงข้อมูลตำบล
 
 ![dependent](/images/depdrop.png)
 
@@ -8,7 +8,7 @@
 ![deropdown](/images/dropdown-flow.png)
 
 
-- ขั้นตอนแรก จังหวัดเราจะทำการใช้ dropdownList แบบธรรมดาและคิวรีข้อมูลขึ้นมาเพื่อกำหนดค่าให้กับ dropdownList จังหวัดเพื่อแสดงผล
+- ขั้นตอนแรก ตัวเลือกจังหวัด เราจะทำการใช้ dropdownList แบบธรรมดาและคิวรีข้อมูลขึ้นมาเพื่อกำหนดค่าให้กับ dropdownList จังหวัดเพื่อแสดงผล
 ![deropdown](/images/province.png)
 
 - เมื่อมีการคลิกเลือกจังหวัด ก็จะทำการส่งข้อมูลรหัสจังหวัด ที่เลือกไปที่ `actionGetAmphur()` เพื่อทำการค้นหาอำเภอ
@@ -17,10 +17,11 @@
 - เมื่อทำการเลือกอำเภอ ก็จะทำการส่งข้อมูลรหัสอำเภอที่เลือกไปที่ `actionGetDistrict()` เพื่อทำการค้นหาข้อมูลตำบล และส่งข้อมูลกลับให้ widget ในรูปแบบของ `json`เพื่อนำไปแสดงผลต่อที่ dropdownList ตำบล
 ![deropdown](/images/district.png)
 
-
+> ตัว widgit สามารถสร้างตัวเลือกสับย่อยๆ เข้าไปอีกได้ อาจจะมากกว่า 3 ก็ได้ ก็แล้วแต่กรณีที่เราจะนำไปใช้ เช่น ข้อมูลหมวดหมู่ประเภทสินค้า
 
 ## การติดตั้ง Widget
 ในตัวอย่างนี้เราใช้ Widget [Dependent Dropdown Widget](Dependent Dropdown Widget) ซึ่งจะเป็นเพ็คเก็จที่รวมอยุ่ใน [Yii2 Widgets](http://demos.krajee.com/widgets) ซึ่งจะมี widget อื่นๆ อีกหลายตัว
+> widget นี้ใช้งานร่วมกับ  [yiisoft/yii2-bootstrap](https://github.com/yiisoft/yii2/tree/master/extensions/bootstrap) แต่ส่วนใหญ่ก็ติดตั้งมาพร้อมอยู่แล้ว
 
 รันคอมมานเพื่อทำการติดตั้ง
 ```
@@ -64,7 +65,7 @@ array(
   .......
   )
 ```
-เมื่อได้ข้อมูลแล้วเราก็เรียกใช้งานและทำการตั้งชื่อให้กับ DropdownList จังหวัด `ddl-province`
+เมื่อได้ข้อมูลแล้วเราก็เรียกใช้งานและทำการตั้งชื่อให้กับ DropdownList จังหวัดชื่อ `ddl-province`
 
 ```php
 <?= $form->field($model, 'province')->dropdownList(
@@ -123,7 +124,7 @@ array(
 แต่ตอนนี้จะยังใช้งานไม่ได้เพราะเรายังไม่ได้สร้าง action เพื่อรองรับการค้นข้อมูลและส่งข้อมูลให้กับ dropdownlist
 
 ## สร้าง Action เพื่อรองรับการคลิกเลือกจังหวัดและอำเภอ
-เราจะทำการสร้าง action ไว้ที่ controllers/employee
+เราจะทำการสร้าง action ไว้ที่ controllers/EmployeeController.php
 action แรกจะเป็น actionGetAmphur() ตรงนี้จะรองรับการคลิกเลือกจังหวัดและส่งค่าอำเภอกลับไปให้กับ dropdownlist อำเภอเป็น json
 
 ```php
@@ -200,3 +201,75 @@ action actionGetAmphur() ข้างใน function จะมีการเร
 ![select-province](/images/select-district.png)
 
 ## กรณี Update
+
+ในกรณีอัพเดทเราจะเป็นจะต้องนำค่า อำเภอและตำบลที่บันทึกไว้ไปค้นเพื่อนำมาแสดงผลว่าเคยเลือกอะไรไปแล้ว
+
+ไปที่ actionUpdate() ทำการเรียกฟังชั่น getAmphur(), getDistrict() เพื่อดึงข้อมูลไปแสดงที่ dropdownlist อำเภอและตำบลให้มันเลือกที่รายการที่เราเคยเลือกไว้ก่อนหน้านี้
+
+```php
+
+  public function actionUpdate($id)
+  {
+      $model          = $this->findModel($id);
+
+      $amphur         = ArrayHelper::map($this->getAmphur($model->province),'id','name');
+      $district       = ArrayHelper::map($this->getDistrict($model->amphur),'id','name');
+
+    //..........
+
+    return $this->render('update', [
+           'model' => $model,
+           'amphur'=> $amphur,
+           'district' =>$district
+
+    ]);
+  }
+
+```
+
+และที่ ไฟล์ views/employee/update.php อย่างลืมส่งค่าไปให้ฟอร์มด้วย
+```php
+<?= $this->render('_form', [
+        'model' => $model,
+         'amphur'=> $amphur,
+         'district' =>$district
+  ]) ?>
+```
+
+จากนั้นเปลี่ยนค่า `data` ใน dropdownlist อำเภอและตำบลเป็นค่าที่ส่งมา
+```php
+
+<?= $form->field($model, 'amphur')->widget(DepDrop::classname(), [
+    'options'=>['id'=>'ddl-amphur'],
+    'data'=> $amphur, //<---------
+    'pluginOptions'=>[
+        'depends'=>['ddl-province'],
+        'placeholder'=>'เลือกอำเภอ...',
+        'url'=>Url::to(['/employee/get-amphur'])
+    ]
+]); ?>
+
+
+<?= $form->field($model, 'district')->widget(DepDrop::classname(), [
+    'data' =>$district, //<---------
+    'pluginOptions'=>[
+        'depends'=>['ddl-province', 'ddl-amphur'],
+        'placeholder'=>'เลือกตำบล...',
+        'url'=>Url::to(['/employee/get-district'])
+    ]
+]); ?>
+```
+
+อีกอย่างอย่างลือสร้างตัวแปร array ปล่าวให้กับ /views/employee/create.php เพื่อในตอน create จะได้ไม่ error ตัวแปรไม่ได้ถูกสร้าง
+
+```php
+<?= $this->render('_form', [
+        'model' => $model,
+        'amphur'=> [],
+        'district' =>[],
+    ]) ?>
+
+```
+
+ลองใช้กันดูนะครับ
+ดาวโหลด source code [ ได้ทีนี่](https://github.com/dimpled/Yii2-Learning-Source/releases)
