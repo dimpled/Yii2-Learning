@@ -123,3 +123,80 @@ array(
 แต่ตอนนี้จะยังใช้งานไม่ได้เพราะเรายังไม่ได้สร้าง action เพื่อรองรับการค้นข้อมูลและส่งข้อมูลให้กับ dropdownlist
 
 ## สร้าง Action เพื่อรองรับการคลิกเลือกจังหวัดและอำเภอ
+เราจะทำการสร้าง action ไว้ที่ controllers/employee
+action แรกจะเป็น actionGetAmphur() ตรงนี้จะรองรับการคลิกเลือกจังหวัดและส่งค่าอำเภอกลับไปให้กับ dropdownlist อำเภอเป็น json
+
+```php
+public function actionGetAmphur() {
+     $out = [];
+     if (isset($_POST['depdrop_parents'])) {
+         $parents = $_POST['depdrop_parents'];
+         if ($parents != null) {
+             $cat_id = $parents[0];
+             $out = $this->getAmphur($cat_id);
+             echo Json::encode(['output'=>$out, 'selected'=>'']);
+             return;
+         }
+     }
+     echo Json::encode(['output'=>'', 'selected'=>'']);
+ }
+```
+action ที่สองจะเป็น actionGetDistrict() ตรงนี้จะรองรับการคลิกเลือกอำเภอและ ส่งค่าตำบลกลับไปให้กับ dropdownlist ตำบลเป็น json
+
+```php
+ public function actionGetDistrict() {
+     $out = [];
+     if (isset($_POST['depdrop_parents'])) {
+         $ids = $_POST['depdrop_parents'];
+         $province_id = empty($ids[0]) ? null : $ids[0];
+         $amphur_id = empty($ids[1]) ? null : $ids[1];
+         if ($province_id != null) {
+            $data = $this->getDistrict($amphur_id);
+            echo Json::encode(['output'=>$data, 'selected'=>'']);
+            return;
+         }
+     }
+     echo Json::encode(['output'=>'', 'selected'=>'']);
+ }
+```
+
+action actionGetAmphur() ข้างใน function จะมีการเรียกใช้งาน getAmphur($id) และส่งค่ารหัส จังหวัดมาให้ เพื่อนำไปค้นที่ model Amphur
+```php
+ protected function getAmphur($id){
+     $datas = Amphur::find()->where(['PROVINCE_ID'=>$id])->all();
+     return $this->MapData($datas,'AMPHUR_ID','AMPHUR_NAME');
+ }
+ ```
+
+ action actionGetDistrict() ข้างใน function จะมีการเรียกใช้งาน getDistrict($id) และส่งค่ารหัส อำเภอมาให้ เพื่อนำไปค้นที่ model District
+ ```php
+ protected function getDistrict($id){
+     $datas = District::find()->where(['AMPHUR_ID'=>$id])->all();
+     return $this->MapData($datas,'DISTRICT_ID','DISTRICT_NAME');
+ }
+ ```
+
+ และ function `getAmphur()` และ `getDistrict()` จะทำการเรียก  `MapData` เพื่อทำการนำค่าที่ได้สร้าง array ในรูปแบบ `['id'=>'','name'=>'']` เพราะตัว widget DepDrop ได้ระบบให้สร้างตาม format นี้
+ ```php
+ protected function MapData($datas,$fieldId,$fieldName){
+     $obj = [];
+     foreach ($datas as $key => $value) {
+         array_push($obj, ['id'=>$value->{$fieldId},'name'=>$value->{$fieldName}]);
+     }
+     return $obj;
+ }
+ ```
+
+## ทดลองใช้งาน
+เลือกจังหวัด
+![select-province](/images/select-province.png)
+
+เลือกอำเภอ
+
+![select-province](/images/select-amphur.png)
+
+เลือกตำบล
+
+![select-province](/images/select-district.png)
+
+## กรณี Update
