@@ -19,9 +19,64 @@
 
 
 
+## การติดตั้ง Widget
+ในตัวอย่างนี้เราใช้ Widget [Dependent Dropdown Widget](Dependent Dropdown Widget) ซึ่งจะเป็นเพ็คเก็จที่รวมอยุ่ใน [Yii2 Widgets](http://demos.krajee.com/widgets) ซึ่งจะมี widget อื่นๆ อีกหลายตัว
 
+รันคอมมานเพื่อทำการติดตั้ง
+```
+composer require kartik-v/yii2-widgets "*"
+```
+หรือเพิ่ม
+```
+"kartik-v/yii2-widgets": "*"
+```
+ที่แท็ค require ในไฟล์ composer.json จากนั้น `composer update`
 
- ให้หลังจากนั้นเมื่อมีการคลิกที่ จังหวัดและทำการเลือกจังหวัด จะมีการเรียกไปที่ actionGetAmphur() และส่งค่า รหัสจังหวัดไปด้วยเพื่อทำการค้นหาข้อมูลอำเภอของจังหวัดนี้ จากนั้น action จะส่งข้อมูล json อำเภอกลับมาและ widget จะทำการใส่ข้อมูลเข้าไปที่ dropdownList อำเภอให้
+## สร้าง Model
+ทำการสร้าง gii Model ให้ครบทั้ง 3 ตารางคือ province, amphur, district
+> ข้อมูล จังหวัด,อำเภอ,ตำบล [ดูได้ที่นี่](https://github.com/dimpled/Yii2-Learning-Source/blob/master/yii2-learning-source.sql)
 
+## เรียกใช้งานใน Form
+ทำการเรียกใช้งาน model ทั้งหมด เรียก ArrayHelper และ DepDrop
+```php
+<?php
+use app\models\Province;
+use app\models\Amphur;
+use app\models\District;
 
-ตัวเลือกจังหวัดเราจะใช้ dropdownList ธรรมดาโดยคิวรีข้อมูลจังหวัดมาไว้ก่อนและใส่ค่าให้กับ dropdownList ปกติ และทำการกำหนดค่า id ให้กับมันด้วย
+use yii\helpers\ArrayHelper;
+
+use kartik\widgets\DepDrop;
+```
+
+### สร้าง DropdownList จังหวัด
+ในการเรียกข้อมูลเพื่อมาใช้กับ DropdownList โดยเรียกผ่าน model นั้นเราจะเป็นจะต้องใช้ `ArrayHelper` เพื่อสร้าง array ที่สามารถใช้กับ dropdownList ได้ โดยใช้ `ArrayHelper::map("model","ชื่อฟิวด์รหัส","ชื่อฟิวด์ที่เป็นข้อความ")`
+```
+ArrayHelper::map(Province::find()->all(),
+'PROVINCE_ID',
+'PROVINCE_NAME')
+```
+จากนั้นเราจะได้ Array กลับมาในรูปแบบ
+```php
+array(
+  '28'=>'ขอนแก่น',
+  '29'=>'มาหาสารคาม',
+  .......
+  )
+```
+เมื่อได้ข้อมูลแล้วเราก็เรียกใช้งานและทำการตั้งชื่อให้กับ DropdownList จังหวัด `ddl-province`
+
+```php
+<?= $form->field($model, 'province')->dropdownList(
+            ArrayHelper::map(Province::find()->all(),
+            'PROVINCE_ID',
+            'PROVINCE_NAME'),
+            [
+                'id'=>'ddl-province',
+                'prompt'=>'เลือกจังหวัด'
+]); ?>
+```
+
+ซึ่งก็จะเห็นว่าเราสามารถเลือกจังหวัดได้แล้ว
+
+![deropdown](/images/province-view.png)
