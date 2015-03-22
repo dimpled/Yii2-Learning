@@ -7,8 +7,6 @@
 ในตัวอย่างนี้จะสร้างฟอร์มไว้เก็บข้อมูล freelance ข้อมูลไฟล์สัญญา ไฟล์ข้อมูลต่างๆ ไฟล์ข้อมูลรูปภาพ
 
 ## การติดตั้ง Widget
-ในตัวอย่างนี้เราใช้ Widget [fileinput](http://demos.krajee.com/widgets#fileinput) ซึ่งจะเป็นเพ็คเก็จที่รวมอยุ่ใน [Yii2 Widgets](http://demos.krajee.com/widgets) ซึ่งจะมี widget อื่นๆ อีกหลายตัว
-
 
 รันคำสั่งเพื่อทำการติดตั้ง
 ```
@@ -24,7 +22,7 @@ composer require kartik-v/yii2-widgets "*"
 ทำการสร้าง gii Model `Freelance`, และทำการสร้าง gii CRUD `Freelance`
 
 ### Validating Input
-หลังจากสร้าง Model เสร็จเราจะทำกางปรับแต่ง `Rules()` เพื่อเป็นการ `Validating Input` ของเรา ซึ่ง Yii 2 มีให้มาครบเลย เช่น email, date, url ฯลฯ ในฟอร์มนี้เราจะใช้ `file` เพราะเราจะทำการ upload file
+หลังจากสร้าง Model เสร็จเราจะทำการปรับแต่ง `Rules()` เพื่อเป็นการ `Validating Input` ของเรา ซึ่ง Yii 2 มีให้มาครบเลย เช่น email, date, url ฯลฯ ในฟอร์มนี้เราจะใช้ `file` เพราะเราจะทำการ upload file
 > [รายการ validate ทั้งหมดดูได้ที่นี่](http://www.yiiframework.com/doc-2.0/yii-validators-validator.html)
 
 เปิดไฟล์ /models/Freelance.php
@@ -51,6 +49,7 @@ public function rules()
 ```
 
 ## Create Form
+
 ในส่วนของ form เราต้องเพิ่ม attribute `enctype="multipart/form-data"` ส่วนใหญ่หลายๆ คนอาจลืมผมก็เคยลืม ฮา..
 
 ไปที่ไฟล์ /views/freelance/_form.php แก้ไข `ActiveForm` ให้เป็นดังนี้
@@ -60,18 +59,103 @@ public function rules()
 ```
 จากนั้นก็ปรับ layout from ตามใจชอบ [ดูรายละเอียดการปรับ layout form ได้ที่นี่](/tutorial/create-from.md)
 
+![form-upload-layout.](/images/upload-file/form-upload-layout.png)
+
 ```php
-<?=  $form->field($model, 'resume')->widget(FileInput::classname(), [
-'options' => ['accept' => 'image/*'],
-'pluginOptions' => [
-    'initialPreview'=>[],
-    'allowedFileExtensions'=>['pdf'],
-    'showPreview' => false,
-    'showCaption' => true,
-    'showRemove' => true,
-    'showUpload' => false
- ]
-]); ?>
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
+/* @var $this yii\web\View */
+/* @var $model app\models\Freelance */
+/* @var $form yii\widgets\ActiveForm */
+?>
+
+<div class="freelance-form">
+
+    <?php $form = ActiveForm::begin(); ?>
+
+     <?= $form->field($model, 'ref')->hiddenInput()->label(false); ?>
+
+    <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
+
+    <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
+
+    <?= $form->field($model, 'covenant')->textInput(['maxlength' => 100]) ?>
+
+    <?= $form->field($model, 'docs')->textarea(['rows' => 6]) ?>
+    <div class="row">
+        <div class="col-sm-4 col-md-4"> <?= $form->field($model, 'start_date')->textInput() ?></div>
+        <div class="col-sm-4 col-md-4"><?= $form->field($model, 'end_date')->textInput() ?></div>
+        <div class="col-sm-4 col-md-4"><?= $form->field($model, 'succes_date')->textInput() ?></div>
+    </div>
+
+    <div class="form-group">
+        <?= Html::submitButton('<i class="glyphicon glyphicon-plus"></i> '.($model->isNewRecord ? 'Create' : 'Update'), ['class' => ($model->isNewRecord ? 'btn btn-success' : 'btn btn-primary').' btn-lg btn-block']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
+
+</div>
+
 ```
+
+จากนั้นเราจะทำการเปลี่ยนจาก input เป็น file โดยใช้ [File Input Widget](http://demos.krajee.com/widgets#fileinput) ทำการเรียกใช้ดังนี้
+
+ทำการเรียก File Input Widget เข้ามาก่อน
+
+```php
+<?php
+use kartik\widgets\FileInput;
+```
+จากนั้นเปลี่ยน `textInput` จากของเดิมแบบนี้
+
+```php
+<?= $form->field($model, 'covenant')->textInput(['maxlength' => 100]) ?>
+```
+และทำการเรียกใช้งาน `FileInput` และกำหนดค่าต่างๆ
+
+- `'options' => ['accept' => 'image/*']` ถ้าเราใช้ upload รูปภาพอย่างเดียว
+- `initialPreview` เป็นการนำข้อมูลที่เคยบันทึกไปแล้วมาแสดงที่ thumbnail
+- `allowedFileExtensions` กำหนดให้เราสามารถอัพโหลดไฟล์ format ใหนบ้าง
+- `showRemove` ให้มีปุ่มยกเลิกในกรณีที่เราต้องการเลือกไฟล์ใหม่
+- `showUpload` เป็นปุ่ม upload file แบบ ajax ซึ่งตอนนี้เรายังไม่ใช้กับฟิวด์นี้
+
+> สำหรับฟิวด์ `covenang` ผมกำหนดให้สามารถอัพโหลดได้ทีละไฟล์
+
+```php
+
+<?= $form->field($model, 'covenant')->widget(FileInput::classname(), [
+    //'options' => ['accept' => 'image/*'],
+    'pluginOptions' => [
+        'initialPreview'=>[],
+        'allowedFileExtensions'=>['pdf'],
+        'showPreview' => false,
+        'showRemove' => true,
+        'showUpload' => false
+     ]
+]); ?>
+
+```
+
+ส่วนฟิวด์ docs ผมจะให้สามารถอัพโหลดได้มากกว่า 1 ไฟล์
+
+```php
+
+<?= $form->field($model, 'docs')->widget(FileInput::classname(), [
+   //'options' => ['accept' => 'image/*'],
+   'pluginOptions' => [
+       'initialPreview'=>[],
+       //'allowedFileExtensions'=>['pdf'],
+       'showPreview' => false,
+       'showCaption' => true,
+       'showRemove' => true,
+       'showUpload' => false
+    ]
+   ]); ?>
+
+```
+
 จะได้ file upload แบบนี้
 ![upload](/images/upload-file.png)
