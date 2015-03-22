@@ -281,4 +281,4 @@ action actionGetAmphur() ข้างใน function จะมีการเร
 ```
 
 ลองใช้กันดูนะครับ
-ดาวโหลด source code [ ได้ทีนี่](https://github.com/dimpled/Yii2-Learning-Source/releases)
+ดาวน์โหลด source code [ ได้ทีนี่](https://github.com/dimpled/Yii2-Learning-Source/releases)
