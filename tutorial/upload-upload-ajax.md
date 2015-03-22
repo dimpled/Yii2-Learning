@@ -35,13 +35,13 @@ composer require kartik-v/yii2-widgets "*"
 public function rules()
 {
     return [
-        [['title','covenant'],'required'],
-        [['description', 'docs'], 'string'],
-        [['start_date', 'end_date', 'succes_date', 'create_date','docs'], 'safe'],
+        [['title'],'required'],
+        [['description'], 'string'],
+        [['start_date', 'end_date', 'succes_date', 'create_date'], 'safe'],
         [['ref'], 'string', 'max' => 20],
         [['title'], 'string', 'max' => 255],
-        [['covenant'],'file','maxFiles'=>1], //<-----
-        [['docs'],'file','maxFiles'=>10] //<-----
+        [['covenant'],'file','maxFiles'=>1], //<---
+        [['docs'],'file','maxFiles'=>10] //<---
     ];
 }
 
@@ -102,30 +102,18 @@ use yii\widgets\ActiveForm;
 
 ```
 
-จากนั้นเราจะทำการเปลี่ยนจาก input เป็น file โดยใช้ [File Input Widget](http://demos.krajee.com/widgets#fileinput) ทำการเรียกใช้ดังนี้
-
-ทำการเรียก File Input Widget เข้ามาก่อน
+จากนั้นเราจะทำการเปลี่ยนจาก input เป็น file โดยใช้ [File Input Widget](http://demos.krajee.com/widgets#fileinput) ทำการเรียก File Input Widget เข้ามาก่อน
 
 ```php
 use kartik\widgets\FileInput;
 ```
+
 จากนั้นเปลี่ยน `textInput` จากของเดิมแบบนี้
 
 ```php
 <?= $form->field($model, 'covenant')->textInput(['maxlength' => 100]) ?>
 ```
 และทำการเรียกใช้งาน `FileInput` และกำหนดค่าต่างๆ
-
-- `'options' => ['accept' => 'image/*']` ถ้าเราใช้ upload รูปภาพอย่างเดียว
-- `initialPreview` เป็นการนำข้อมูลที่เคยบันทึกไปแล้วมาแสดงที่ thumbnail
-- `allowedFileExtensions` กำหนดให้เราสามารถอัพโหลดไฟล์ format ใหนบ้าง
-- `showRemove` ให้มีปุ่มยกเลิกในกรณีที่เราต้องการเลือกไฟล์ใหม่
-- `showUpload` เป็นปุ่ม upload file แบบ ajax ซึ่งตอนนี้เรายังไม่ใช้กับฟิวด์นี้
-
-> [อ่านรายละเอียดเพิ่มเติม](http://plugins.krajee.com/file-input)
-
-> สำหรับฟิวด์ `covenang` ผมกำหนดให้สามารถอัพโหลดได้ทีละไฟล์
-
 ```php
 
 <?= $form->field($model, 'covenant')->widget(FileInput::classname(), [
@@ -140,6 +128,17 @@ use kartik\widgets\FileInput;
 ]); ?>
 
 ```
+
+- `'options' => ['accept' => 'image/*']` ถ้าเราใช้ upload รูปภาพอย่างเดียว
+- `initialPreview` เป็นการนำข้อมูลที่เคยบันทึกไปแล้วมาแสดงที่ thumbnail
+- `allowedFileExtensions` กำหนดให้เราสามารถอัพโหลดไฟล์ format ใหนบ้าง
+- `showRemove` ให้มีปุ่มยกเลิกในกรณีที่เราต้องการเลือกไฟล์ใหม่
+- `showUpload` เป็นปุ่ม upload file แบบ ajax ซึ่งตอนนี้เรายังไม่ใช้กับฟิวด์นี้
+
+ [อ่านรายละเอียดเพิ่มเติม](http://plugins.krajee.com/file-input)
+
+> สำหรับฟิวด์ `covenang` ผมกำหนดให้สามารถอัพโหลดได้ทีละไฟล์
+
 
 ส่วนฟิวด์ `docs` ผมจะให้สามารถอัพโหลดได้มากกว่า 1 ไฟล์ สังเกตุตรงชื่อผมจะใส่ `docs[]` เพื่อให้ส่งไฟล์ไปอัพโหลดได้ทีละหลายๆ ไฟล์ และเซ็ตค่า widget `multiple=true`
 
@@ -167,7 +166,7 @@ use kartik\widgets\FileInput;
 ]); ?>
 
 ```
-หลังจากนั้นลองดูฟอร์ที่เราได้ปรับแต่งแล้ว ก็จะได้ฟอร์มอัพโหลดที่ค่อนข้างดูดีทีเดียว ไม่ใช่แค่ส่วนแต่มันยังทำให้เราใช้งานได้ง่ายขึ้นอีกด้วย แจ่มๆ ^^
+หลังจากนั้นลองดูฟอร์ที่เราได้ปรับแต่งแล้ว ก็จะได้ฟอร์มอัพโหลดที่ค่อนข้างดูดีทีเดียว ไม่ใช่แค่สวย แต่มันยังทำให้เราใช้งานได้ง่ายขึ้นอีกด้วย แจ่มๆ ^^
 
 ![upload](/images/upload-file/add-widget.png)
 
