@@ -40,7 +40,8 @@ public function rules()
         [['start_date', 'end_date', 'succes_date', 'create_date','docs'], 'safe'],
         [['ref'], 'string', 'max' => 20],
         [['title'], 'string', 'max' => 255],
-        [['covenant','docs'],'file'] //<-----
+        [['covenant'],'file','maxFiles'=>1], //<-----
+        [['docs'],'file','maxFiles'=>10] //<-----
     ];
 }
 
@@ -57,7 +58,7 @@ public function rules()
 ```php
 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 ```
-จากนั้นก็ปรับ layout from ตามใจชอบ [ดูรายละเอียดการปรับ layout form ได้ที่นี่](/tutorial/create-from.md)
+จากนั้นก็ปรับ layout from ตามใจชอบ [ดูรายละเอียดการปรับ layout form ได้ที่นี่](/tutorial/create-form.md)
 
 ![form-upload-layout.](/images/upload-file/form-upload-layout.png)
 
@@ -106,7 +107,6 @@ use yii\widgets\ActiveForm;
 ทำการเรียก File Input Widget เข้ามาก่อน
 
 ```php
-<?php
 use kartik\widgets\FileInput;
 ```
 จากนั้นเปลี่ยน `textInput` จากของเดิมแบบนี้
@@ -121,6 +121,8 @@ use kartik\widgets\FileInput;
 - `allowedFileExtensions` กำหนดให้เราสามารถอัพโหลดไฟล์ format ใหนบ้าง
 - `showRemove` ให้มีปุ่มยกเลิกในกรณีที่เราต้องการเลือกไฟล์ใหม่
 - `showUpload` เป็นปุ่ม upload file แบบ ajax ซึ่งตอนนี้เรายังไม่ใช้กับฟิวด์นี้
+
+> [อ่านรายละเอียดเพิ่มเติม](http://plugins.krajee.com/file-input)
 
 > สำหรับฟิวด์ `covenang` ผมกำหนดให้สามารถอัพโหลดได้ทีละไฟล์
 
@@ -139,23 +141,78 @@ use kartik\widgets\FileInput;
 
 ```
 
-ส่วนฟิวด์ docs ผมจะให้สามารถอัพโหลดได้มากกว่า 1 ไฟล์
+ส่วนฟิวด์ `docs` ผมจะให้สามารถอัพโหลดได้มากกว่า 1 ไฟล์ สังเกตุตรงชื่อผมจะใส่ `docs[]` เพื่อให้ส่งไฟล์ไปอัพโหลดได้ทีละหลายๆ ไฟล์ และเซ็ตค่า widget `multiple=true`
+
+> อย่าลืมเช็ค `Server Environment` php.ini กำหนดค่าเท่าไหร่แล้วแต่ความเหมาะสมของเรานะครับ
+- file_uploads = On
+- max_file_uploads = 10
+- upload_max_filesize = 50M
+- post_max_size = 50M
 
 ```php
 
-<?= $form->field($model, 'docs')->widget(FileInput::classname(), [
-   //'options' => ['accept' => 'image/*'],
-   'pluginOptions' => [
-       'initialPreview'=>[],
-       //'allowedFileExtensions'=>['pdf'],
-       'showPreview' => false,
-       'showCaption' => true,
-       'showRemove' => true,
-       'showUpload' => false
-    ]
-   ]); ?>
+<?= $form->field($model, 'docs[]')->widget(FileInput::classname(), [
+'options' => [
+    //'accept' => 'image/*',
+    'multiple' => true
+],
+'pluginOptions' => [
+    'initialPreview'=>[],
+    //'allowedFileExtensions'=>['pdf'],
+    'showPreview' => false,
+    'showCaption' => true,
+    'showRemove' => true,
+    'showUpload' => false
+ ]
+]); ?>
 
 ```
+หลังจากนั้นลองดูฟอร์ที่เราได้ปรับแต่งแล้ว ก็จะได้ฟอร์มอัพโหลดที่ค่อนข้างดูดีทีเดียว ไม่ใช่แค่ส่วนแต่มันยังทำให้เราใช้งานได้ง่ายขึ้นอีกด้วย แจ่มๆ ^^
 
-จะได้ file upload แบบนี้
-![upload](/images/upload-file.png)
+![upload](/images/upload-file/add-widget.png)
+
+## ทดลองการ Validate ไฟล์
+
+### ฟิวด์แรก `covenant`
+
+ทดลองเลือกไฟล์ที่ไม่ใช่ pdf ก็จะได้ error แบบนี้ และสามารถเลือกได้แค่ไฟล์เดียวเพราะเรากำหนดไว้ที่ `Rules()` ใน model ไว้แล้ว
+
+![upload](/images/upload-file/single-error.png)
+
+ถ้าเลือกไฟล์ถูกต้อง ก็จะแสดงแบบนี้ เห้ย! สวยใช้ได้เลย
+
+![upload](/images/upload-file/single-success.png)
+
+
+### ฟิวด์ที่สอง `docs`
+
+ ฟิวด์นี้เรากำหนดไว้ว่าให้สามารถอัพโหลดได้ทีละหลายๆ ไฟล์ และเลือกได้หลายๆ นามสกุลไฟล์ `'pdf','doc','docx','xls','xlsx'`
+
+ลองเลือกหลายๆ ไฟล์
+> ต้องกดปุ่ม Ctl หรือ command ถ้าเป็น mac ค้างไว้แล้วเลือกไฟล์
+
+![upload](/images/upload-file/multiple-success.png)
+
+ลองเลือกเกินที่กำหนดไว้
+
+![upload](/images/upload-file/multiple-error-max.png)
+
+ลองเลือกนามสกุลไฟล์ที่ไม่ได้ระบุไว้
+
+![upload](/images/upload-file/multiple-error.png)
+
+
+> จริงๆ แล้ว UploadFile ของเดิมๆ ที่มากับ yii 2 ก็ใช้ได้นะครับเพียงแค่หน้าตาอาจไม่สวย
+
+ อีกนิดเราสามารถให้ Widget โชว์ thumbnail ไฟล์ที่เราได้เลือกไว้ได้โดยปรับการตั้งค่าใหม่เป็น
+```php
+'showPreview' => true,
+```
+จะแสดงรายการที่เราได้เลือกไว้ แบบนี้ ! โอ้วพระสงฆ์
+
+![upload](/images/upload-file/show-thumbnail.png)
+
+เสร็จสิ้นในการเตรียมในส่วนของ front end เดี่ยวไปสร้าง controller กัน
+
+
+## Create Controller
