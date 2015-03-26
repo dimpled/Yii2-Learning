@@ -446,7 +446,7 @@ public function listDownloadFiles($type){
 ```
 จะแสดงผลแบบนี้
 
-![view-upload](/images/upload-file/view-upload.png)
+![view-upload](/images/upload-file/view-upload2.png)
 
 
 ### สร้าง function สำหรับ download file
@@ -464,3 +464,6 @@ public function actionDownload($id,$file,$file_name){
     }
 }
 ```
+เราจะได้ไฟล์ตามชื่อไฟล์จริง ที่เคยอัพโหลดไว้ และ actionDownload จะส่งไฟล์ให้ client โดยไม่ได้ link ไฟล์ตรงๆ
+
+![view-upload](/images/upload-file/view-upload3.png)
