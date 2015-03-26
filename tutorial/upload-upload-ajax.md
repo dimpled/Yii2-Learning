@@ -464,9 +464,6 @@ public function actionUpdate($id)
 ```
 
 
-
-
-
 ### ทดลองอัพโหลดไฟล์
 
 เมื่ออัพโหลดไฟล์เสร็จ เราจะได้ข้อมูล json ออกมาแบบนี้
@@ -496,6 +493,25 @@ public function listDownloadFiles($type){
  return $docs_file;
 }
 ```
+
+เรียกใช้งานที่ `views/freelance/view.php`
+
+```php
+<?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'title',
+            'description:ntext',
+            ['attribute'=>'covenant','value'=>$model->listDownloadFiles('covenant'),'format'=>'html'],
+            ['attribute'=>'docs','value'=>$model->listDownloadFiles('docs'),'format'=>'html'],
+            'start_date',
+            'end_date',
+            'success_date',
+            'create_date',
+        ],
+    ]) ?>
+```
+
 จะแสดงผลแบบนี้
 
 ![view-upload](/images/upload-file/view-upload2.png)
