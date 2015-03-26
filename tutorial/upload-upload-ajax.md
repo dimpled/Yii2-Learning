@@ -211,8 +211,27 @@ use kartik\widgets\FileInput;
 
 ![upload](/images/upload-file/show-thumbnail.png)
 
-เสร็จสิ้นในการเตรียมในส่วนของ front end เดี่ยวไปสร้าง controller กัน
+เสร็จสิ้นในการเตรียมในส่วนของ front end เดี่ยวไปสร้าง controller และ model กัน
 
+##  ปรับปรุง Model Freelance เพื่อให้สามารถเรียก path ที่เก็บไฟล์และ url ที่เก็บไฟล์ได้โดยเราจะสร้างฟังก์ชั่นชึ้นมา 2 ตัวคือ `getUploadPath()`,`getUploadUrl()`
+
+โดยเป็น static  function เพื่อให้สามารถเรียกใช้งานได้ง่ายๆ โดยไม่ต้อง new Object
+และประการตัวแปร UPLOAD_FOLDER เป็น static เหมือนกันเพื่อกำหนดค่า folder ที่อัพโหลดได้เวลาเปลี่ยนชื่อจะได้เปลี่ยนที่เดียว
+
+```php
+
+const UPLOAD_FOLDER = 'freelances';
+
+//...........
+
+public static function getUploadPath(){
+    return Yii::getAlias('@webroot').'/'.self::UPLOAD_FOLDER.'/';
+}
+
+public static function getUploadUrl(){
+    return Url::base(true).'/'.self::UPLOAD_FOLDER.'/';
+}
+```
 
 ## Create Controller
 เราจะทำการปรับปรุง Controller `Freelance` โดยหลักๆ เราจะสร้าง function สำหรับ upload  file ขี้นมา 2 ตัว แบบอัพโหลดทีละไฟล์ และแบบอัพโหลดทีละหลายๆ ไฟล์
@@ -222,9 +241,9 @@ use kartik\widgets\FileInput;
 
 ฟังก์ชั่นนี้จะรับค่า 2 ค่าคือ $model,$tempFile
 
- `$tempFile` เอาไว้เก็บชื่อไฟล์เดิมเพื่อใช้ในกรณีแก้ไข แล้วไม่ได้อัพโหลดไฟล์ใหม่ก็จะใช้ค่าเดิม เพราะเวลาที่เรา submit from เพื่อบันทึกข้อมูลถ้าไม่ได้มีการเลือกไฟล์ใหม่มาตัว file จะเป็นค่าว่างและจะทำให้ค่าไฟล์เดิมที่มีอยู่แล้วหายไป เพราะฉะนั้นเราต้องเก็บค่านี้ไว้เพื่อหากไม่มีการอัพโหลดไฟล์ใหม่ก็ให้ใช้ค่าเดิมต่อไป
+ `$tempFile` เอาไว้เก็บชื่อไฟล์เดิมเพื่อใช้ในกรณีแก้ไข แล้วไม่ได้อัพโหลดไฟล์ใหม่ก็จะใช้ค่าเดิม เพราะเวลาที่เรา submit from เพื่อบันทึกข้อมูล ถ้าไม่ได้มีการเลือกไฟล์ใหม่มา ตัว file จะเป็นค่าว่างและจะทำให้ค่าไฟล์เดิมที่มีอยู่แล้วหายไป เพราะฉะนั้นเราต้องเก็บค่านี้ไว้เพื่อใช้กรณีที่ไม่มีการอัพโหลดไฟล์ใหม่ ก็ให้ใช้ค่าเดิมต่อไป
 
- และทำการเก็บชื่อไฟล์เดิม และชื่อใหม่ไว้เป็น array จากนั้นนำมาแปลงค่าให้เป็น json แล้วส่งค่ากลับออกไปเป็น json เพื่อนำไปบันทึกข้อมูล
+ จานั้นจะทำการเก็บชื่อไฟล์เดิมและชื่อไฟล์ใหม่ไว้เป็น array และนำมาแปลงค่าให้เป็น json แล้วส่งค่ากลับออกไปเป็น string ในรูปแบบ json เพื่อนำไปบันทึกข้อมูล
 
 
 ```php
@@ -250,6 +269,7 @@ private function uploadSingleFile($model,$tempFile=null){
 ```
 
 ### สร้างฟังก์ชั่นอัพโหลดทีละหลายๆ ไฟล์
+
 ฟังก์ชันนี้ก็จะคล้ายๆ กับ `uploadSingleFile()` แต่ต่างกันที่สามารถอัพโหลดได้ทีละหลายๆ ไฟล์
 และก็จะรับค่า parameter  เหมือนกันคือ $model,$tempFile
 
@@ -275,5 +295,57 @@ private function uploadMultipleFile($model,$tempFile){
             $json = $tempFile;
          }
         return $json;
+}
+```
+
+### สร้างฟังก์ชันเพื่อสร้างโฟลเดอร์สำหรับเก็บไฟล์
+
+ฟังชั่นนี้ก็ง่ายๆ เอาไว้สำหรับสร้าง folder ไว้เก็บไฟล์ในแต่ละ id เพื่อให้แยกไฟล์ได้เป็นะระเบียบและเพื่อการค้นหาด้วย
+
+```php
+
+private function CreateDir($folderName){
+    if($folderName != NULL){
+        $basePath = Freelance::getUploadPath();
+        if(BaseFileHelper::createDirectory($basePath.$folderName,0777)){
+            BaseFileHelper::createDirectory($basePath.$folderName.'/thumbnail',0777);
+        }
+    }
+    return;
+}
+
+```
+
+### เรียกใช้งาน
+เมื่อสร้าง function สำหรับการอัพโหลดแล้วเราจะเรียกใช้งานที่ actionCreate เพื่อบันทึกข้อมูลและเราจะทำการแก้ไขใหม่จากของเดิม
+
+```php
+
+```
+เป็นแบบนี้
+
+```php
+public function actionCreate()
+{
+    $model = new Freelance();
+
+    if ($model->load(Yii::$app->request->post()) ) {
+
+        $this->CreateDir($model->ref);
+
+        $model->covenant = $this->uploadSingleFile($model);
+        $model->docs = $this->uploadMultipleFile($model);
+
+        if($model->save()){
+             return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+    } else {
+         $model->ref = substr(Yii::$app->getSecurity()->generateRandomString(),10);
+    }
+
+    return $this->render('create', [
+        'model' => $model,
+    ]);
 }
 ```
