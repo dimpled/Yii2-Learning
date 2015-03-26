@@ -393,7 +393,28 @@ public function actionCreate()
 
 ### เรียกใช้งานตอน Update
 
-สร้างฟังก์ชันในการดึงไฟล์มาแสดง thumbnail ในตอนแก้ไขข้อมูลที่ฟอร์ม ที่ตัว widget upload file เพิ่มที่ไฟล์ modeles/Freelance.php
+ทำการแก้ไขไฟล์ `controller/Freelance.php` actionUpdate ซึ่งจะคล้ายกับ create ต่างกันนิดหน่อยตรงที่ต้องเก็บค่าไฟล์เดิมไว้ก่อน เพื่อใช้ในกรณีไม่ได้มีการอัพโหลดไฟล์
+
+```php
+public function actionUpdate($id)
+{
+    $model = $this->findModel($id);
+    $tempCovenant = $model->covenant;
+    $tempDocs     = $model->docs;
+    if ($model->load(Yii::$app->request->post())) {
+        $model->covenant = $this->uploadSingleFile($model,$tempCovenant);
+        $model->docs = $this->uploadMultipleFile($model,$tempDocs);
+        if($model->save()){
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+    }
+
+    return $this->render('update', [
+        'model' => $model,
+    ]);
+}
+```
+และสร้างฟังก์ชันในการดึงไฟล์มาแสดง thumbnail ในตอนแก้ไขข้อมูลที่ฟอร์ม ที่ตัว widget upload file เพิ่มที่ไฟล์ modeles/Freelance.php
 
 ```php
 public function initialPreview($data,$field,$type='file'){
@@ -440,29 +461,6 @@ public function initialPreview($data,$field,$type='file'){
    ]); ?>
 
 ```
-
-และทำการแก้ไขไฟล์ `controller/Freelance.php` actionUpdate ซึ่งจะคล้ายกับ create ต่างกันนิดหน่อยตรงที่ต้องเก็บค่าไฟล์เดิมไว้ก่อน เพื่อใช้ในกรณีไม่ได้มีการอัพโหลดไฟล์
-
-```php
-public function actionUpdate($id)
-{
-    $model = $this->findModel($id);
-    $tempCovenant = $model->covenant;
-    $tempDocs     = $model->docs;
-    if ($model->load(Yii::$app->request->post())) {
-        $model->covenant = $this->uploadSingleFile($model,$tempCovenant);
-        $model->docs = $this->uploadMultipleFile($model,$tempDocs);
-        if($model->save()){
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-    }
-
-    return $this->render('update', [
-        'model' => $model,
-    ]);
-}
-```
-
 
 ### ทดลองอัพโหลดไฟล์
 
@@ -535,3 +533,5 @@ public function actionDownload($id,$file,$file_name){
 เราจะได้ไฟล์ตามชื่อไฟล์จริง ที่เคยอัพโหลดไว้ และ actionDownload จะส่งไฟล์ให้ client โดยไม่ได้ link ไฟล์ตรงๆ
 
 ![view-upload](/images/upload-file/view-upload3.png)
+
+จากตัวอย่างเราจะเห็นว่าเราสามารถเก็บข้อมูลการอัพโหลดไฟล์ในรูปแบบ json ได้ซึ่งทำให้เราไม่ต้องสร้างฟิวด์หลายๆ ฟิวด์
