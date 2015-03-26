@@ -215,3 +215,65 @@ use kartik\widgets\FileInput;
 
 
 ## Create Controller
+เราจะทำการปรับปรุง Controller `Freelance` โดยหลักๆ เราจะสร้าง function สำหรับ upload  file ขี้นมา 2 ตัว แบบอัพโหลดทีละไฟล์ และแบบอัพโหลดทีละหลายๆ ไฟล์
+
+### สร้างฟังก์ชั่นอัพโหลดทีละ 1 ไฟล์
+ผมจะเก็บข้อมูลในฟิวด์ `covenant` เป็น json เพื่อให้สามารถทำการเปลี่ยนชื่อไฟล์เพื่อเก็บบน server โดยไม่มีโอกาสซ้ำชื่อกันและเมื่อดาวน์โหลดไฟล์ก็จะส่งเป็นชื่อไฟล์เดิมลงมา
+
+ฟังก์ชั่นนี้จะรับค่า 2 ค่าคือ $model,$tempFile
+
+ `$tempFile` เอาไว้เก็บชื่อไฟล์เดิมเพื่อใช้ในกรณีแก้ไข แล้วไม่ได้อัพโหลดไฟล์ใหม่ก็จะใช้ค่าเดิม เพราะเวลาที่เรา submit from เพื่อบันทึกข้อมูลถ้าไม่ได้มีการเลือกไฟล์ใหม่มาตัว file จะเป็นค่าว่างและจะทำให้ค่าไฟล์เดิมที่มีอยู่แล้วหายไป เพราะฉะนั้นเราต้องเก็บค่านี้ไว้เพื่อหากไม่มีการอัพโหลดไฟล์ใหม่ก็ให้ใช้ค่าเดิมต่อไป
+
+ และทำการเก็บชื่อไฟล์เดิม และชื่อใหม่ไว้เป็น array จากนั้นนำมาแปลงค่าให้เป็น json แล้วส่งค่ากลับออกไปเป็น json เพื่อนำไปบันทึกข้อมูล
+
+
+```php
+private function uploadSingleFile($model,$tempFile=null){
+    $file = [];
+    $json = '';
+    try {
+         $UploadedFile = UploadedFile::getInstance($model,'covenant');
+         if($UploadedFile !== null){
+             $oldFileName = $UploadedFile->basename.'.'.$UploadedFile->extension;
+             $newFileName = md5($UploadedFile->basename.time()).'.'.$UploadedFile->extension;
+             $UploadedFile->saveAs('freelances/'.$model->ref.'/'.$newFileName);
+             $file[$newFileName] = $oldFileName;
+             $json = Json::encode($file);
+         }else{
+            $json=$tempFile;
+         }
+    } catch (Exception $e) {
+        $json=$tempFile;
+    }
+    return $json ;
+}
+```
+
+### สร้างฟังก์ชั่นอัพโหลดทีละหลายๆ ไฟล์
+ฟังก์ชันนี้ก็จะคล้ายๆ กับ `uploadSingleFile()` แต่ต่างกันที่สามารถอัพโหลดได้ทีละหลายๆ ไฟล์
+และก็จะรับค่า parameter  เหมือนกันคือ $model,$tempFile
+
+```php
+
+private function uploadMultipleFile($model,$tempFile){
+         $files = [];
+         $json = '';
+         $tempFile = Json::decode($tempFile);
+         $UploadedFiles = UploadedFile::getInstances($model,'docs');
+         if($UploadedFiles!==null){
+            foreach ($UploadedFiles as $file) {
+                try {   $oldFileName = $file->basename.'.'.$file->extension;
+                        $newFileName = md5($file->basename.time()).'.'.$file->extension;
+                        $file->saveAs('freelances/'.$model->ref.'/'.$newFileName);
+                        $files[$newFileName] = $oldFileName ;
+                } catch (Exception $e) {
+
+                }
+            }
+            $json = json::encode(ArrayHelper::merge($tempFile,$files));
+         }else{
+            $json = $tempFile;
+         }
+        return $json;
+}
+```
