@@ -415,7 +415,7 @@ public function actionUpdate($id)
 }
 ```
 
-และสร้างฟังก์ชันในการดึงไฟล์มาแสดง thumbnail ที่ตัว widget upload file เพิ่มที่ไฟล์ modeles/Freelance.php
+และสร้างฟังก์ชันในการดึงไฟล์มาแสดง thumbnail ในตอนแก้ไขข้อมูลที่ฟอร์ม ที่ตัว widget upload file เพิ่มที่ไฟล์ modeles/Freelance.php
 
 ```php
 public function initialPreview($data,$field,$type='file'){
@@ -442,7 +442,8 @@ public function initialPreview($data,$field,$type='file'){
 }
 ```
 
-แก้ไขไฟล์ views/_form.php เพิ่มการเรียกใช้งาน
+แก้ไขไฟล์ views/freelance/_form.php เพิ่มการเรียกใช้งานเพื่อแสดง thumbnail ไฟล์ในตอนแก้ไข
+
 ```php
 <?= $form->field($model, 'docs[]')->widget(FileInput::classname(), [
    'options' => [
@@ -498,7 +499,7 @@ public function listDownloadFiles($type){
 
 
 ### สร้าง function สำหรับ download file
-ในการแสดงผลในหน้า view นั้นจะยังคลิก ดาวน์โหลดไฟล์ไม่ได้เราต้องสร้าง function สำหรับ download ไฟล์ เพื่อไม่ให้เป็นการ link ไฟล์โดยตรง
+ในการแสดงผลในหน้า view นั้นจะยังคลิกดาวน์โหลดไฟล์ไม่ได้เราต้องสร้าง function สำหรับ download ไฟล์ เพื่อไม่ให้เป็นการ link ไฟล์โดยตรง
 
 เพิ่ม actionDownload ที่ controllers/Freelance.php
 
