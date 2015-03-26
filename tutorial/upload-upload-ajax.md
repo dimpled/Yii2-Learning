@@ -393,29 +393,7 @@ public function actionCreate()
 
 ### เรียกใช้งานตอน Update
 
-จะคล้ายกับ create ต่างกันนิดหน่อยตรงที่ต้องเก็บค่าไฟล์เดิมไว้ก่อน เพื่อใช้ในกรณีไม่ได้มีการอัพโหลดไฟล์
-
-```php
-public function actionUpdate($id)
-{
-    $model = $this->findModel($id);
-    $tempCovenant = $model->covenant;
-    $tempDocs     = $model->docs;
-    if ($model->load(Yii::$app->request->post())) {
-        $model->covenant = $this->uploadSingleFile($model,$tempCovenant);
-        $model->docs = $this->uploadMultipleFile($model,$tempDocs);
-        if($model->save()){
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-    }
-
-    return $this->render('update', [
-        'model' => $model,
-    ]);
-}
-```
-
-และสร้างฟังก์ชันในการดึงไฟล์มาแสดง thumbnail ในตอนแก้ไขข้อมูลที่ฟอร์ม ที่ตัว widget upload file เพิ่มที่ไฟล์ modeles/Freelance.php
+สร้างฟังก์ชันในการดึงไฟล์มาแสดง thumbnail ในตอนแก้ไขข้อมูลที่ฟอร์ม ที่ตัว widget upload file เพิ่มที่ไฟล์ modeles/Freelance.php
 
 ```php
 public function initialPreview($data,$field,$type='file'){
@@ -441,8 +419,7 @@ public function initialPreview($data,$field,$type='file'){
     return $initial;
 }
 ```
-
-แก้ไขไฟล์ views/freelance/_form.php เพิ่มการเรียกใช้งานเพื่อแสดง thumbnail ไฟล์ในตอนแก้ไข
+ทำการแก้ไขไฟล์ views/freelance/_form.php เพิ่มการเรียกใช้งานเพื่อแสดง thumbnail ไฟล์ในตอนแก้ไข
 
 ```php
 <?= $form->field($model, 'docs[]')->widget(FileInput::classname(), [
@@ -463,6 +440,32 @@ public function initialPreview($data,$field,$type='file'){
    ]); ?>
 
 ```
+
+และทำการแก้ไขไฟล์ `controller/Freelance.php` actionUpdate ซึ่งจะคล้ายกับ create ต่างกันนิดหน่อยตรงที่ต้องเก็บค่าไฟล์เดิมไว้ก่อน เพื่อใช้ในกรณีไม่ได้มีการอัพโหลดไฟล์
+
+```php
+public function actionUpdate($id)
+{
+    $model = $this->findModel($id);
+    $tempCovenant = $model->covenant;
+    $tempDocs     = $model->docs;
+    if ($model->load(Yii::$app->request->post())) {
+        $model->covenant = $this->uploadSingleFile($model,$tempCovenant);
+        $model->docs = $this->uploadMultipleFile($model,$tempDocs);
+        if($model->save()){
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+    }
+
+    return $this->render('update', [
+        'model' => $model,
+    ]);
+}
+```
+
+
+
+
 
 ### ทดลองอัพโหลดไฟล์
 
