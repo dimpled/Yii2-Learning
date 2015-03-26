@@ -415,6 +415,54 @@ public function actionUpdate($id)
 }
 ```
 
+และสร้างฟังก์ชันในการดึงไฟล์มาแสดง thumbnail ที่ตัว widget upload file เพิ่มที่ไฟล์ modeles/Freelance.php
+
+```php
+public function initialPreview($data,$field,$type='file'){
+        $initial = [];
+        $files = Json::decode($data);
+        if(is_array($files)){
+             foreach ($files as $key => $value) {
+                if($type=='file'){
+                    $initial[] = "<div class='file-preview-other'><h2><i class='glyphicon glyphicon-file'></i></h2></div>";
+                }elseif($type=='config'){
+                    $initial[] = [
+                        'caption'=> $value,
+                        'width'  => '120px',
+                        'url'    => Url::to(['/freelance/deletefile','id'=>$this->id,'fileName'=>$key,'field'=>$field]),
+                        'key'    => $key
+                    ];
+                }
+                else{
+                    $initial[] = Html::img(self::getUploadUrl().$this->ref.'/'.$value,['class'=>'file-preview-image', 'alt'=>$model->file_name, 'title'=>$model->file_name]);
+                }
+             }
+     }
+    return $initial;
+}
+```
+
+แก้ไขไฟล์ views/_form.php เพิ่มการเรียกใช้งาน
+```php
+<?= $form->field($model, 'docs[]')->widget(FileInput::classname(), [
+   'options' => [
+       //'accept' => 'image/*',
+       'multiple' => true
+   ],
+   'pluginOptions' => [
+       'initialPreview'=>$model->initialPreview($model->docs,'docs','file'), //<-----
+       'initialPreviewConfig'=>$model->initialPreview($model->docs,'docs','config'),//<-----
+       'allowedFileExtensions'=>['pdf','doc','docx','xls','xlsx'],
+       'showPreview' => true,
+       'showCaption' => true,
+       'showRemove' => true,
+       'showUpload' => false,
+       'overwriteInitial'=>false
+    ]
+   ]); ?>
+
+```
+
 ### ทดลองอัพโหลดไฟล์
 
 เมื่ออัพโหลดไฟล์เสร็จ เราจะได้ข้อมูล json ออกมาแบบนี้
@@ -450,7 +498,7 @@ public function listDownloadFiles($type){
 
 
 ### สร้าง function สำหรับ download file
-ในการแสดงผลในหน้า view นั้นจะยังคลิก อัพโหลดไม่ได้เราต้องสร้าง function สำหรับ download ไฟล์ เพื่อไม่ให้เป็นการ link ไฟล์โดยตรง
+ในการแสดงผลในหน้า view นั้นจะยังคลิก ดาวน์โหลดไฟล์ไม่ได้เราต้องสร้าง function สำหรับ download ไฟล์ เพื่อไม่ให้เป็นการ link ไฟล์โดยตรง
 
 เพิ่ม actionDownload ที่ controllers/Freelance.php
 
