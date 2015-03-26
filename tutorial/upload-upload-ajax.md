@@ -4,6 +4,13 @@
 
 เชื่อว่าหลายๆ คนคงเคยปวดหัวกับการสร้างฟอร์มเพื่อทำการอัพโหลดไฟล์ต่างๆ หรือไฟล์รูปภาพเองก็ตาม ถ้าเป็นฟอร์มอัพโหลดแบบธรรมดาก็คงไม่เท่าไหร่ แต่ถ้าเป็นแบบ ajax ก็คงจะปวดหัวไม่ใช่น้อย.. T_T' เดี่ยววันเราจะมาลองทำฟอร์ม Upload แบบ ajax กันซึ่งพระเอกของเราวันนี้คือ [fileinput](http://demos.krajee.com/widgets#fileinput) เป็น Widget ของ krajee เจ้าเก่า ซึ่งรวมอยู่ในแพ็คเก็จ [Yii2 Widget](http://demos.krajee.com/widgets) อยู่แล้ว ติดตั้งทีเดียวได้ครบเลย ^^
 
+ในตัวอย่างนี้มี 3 แบบ
+- Upload ทีละไฟล์เก็บข้อมูลเป็น json ใช้ฟิวด์เดียว
+- Upload ทีละหลายๆ ไฟล์ เก็บข้อมูลเป็น json ใช้ไฟล์เดียว
+- Upload ทีละ 1 ไฟล์ หรือทีละหลายๆ ไฟล์ก็ได้ โดยใช้ Ajax
+
+> เก็บเป็น json ก็เพราะสามารถเก็บข้อมูลได้เยอะขึ้น และไม่จำเป็นต้องเพิ่มฟิวด์
+
 ในตัวอย่างนี้จะสร้างฟอร์มไว้เก็บข้อมูล freelance ข้อมูลไฟล์สัญญา ไฟล์ข้อมูลต่างๆ ไฟล์ข้อมูลรูปภาพ
 
 ## การติดตั้ง Widget
@@ -213,7 +220,8 @@ use kartik\widgets\FileInput;
 
 เสร็จสิ้นในการเตรียมในส่วนของ front end เดี่ยวไปสร้าง controller และ model กัน
 
-##  ปรับปรุง Model Freelance เพื่อให้สามารถเรียก path ที่เก็บไฟล์และ url ที่เก็บไฟล์ได้โดยเราจะสร้างฟังก์ชั่นชึ้นมา 2 ตัวคือ `getUploadPath()`,`getUploadUrl()`
+##  ปรับปรุง Model Freelance
+เพื่อให้สามารถเรียก path ที่เก็บไฟล์และ url ที่เก็บไฟล์ได้โดยเราจะสร้างฟังก์ชั่นชึ้นมา 2 ตัวคือ `getUploadPath()`,`getUploadUrl()`
 
 โดยเป็น static  function เพื่อให้สามารถเรียกใช้งานได้ง่ายๆ โดยไม่ต้อง new Object
 และประการตัวแปร UPLOAD_FOLDER เป็น static เหมือนกันเพื่อกำหนดค่า folder ที่อัพโหลดได้เวลาเปลี่ยนชื่อจะได้เปลี่ยนที่เดียว
@@ -245,27 +253,37 @@ public static function getUploadUrl(){
 
  จานั้นจะทำการเก็บชื่อไฟล์เดิมและชื่อไฟล์ใหม่ไว้เป็น array และนำมาแปลงค่าให้เป็น json แล้วส่งค่ากลับออกไปเป็น string ในรูปแบบ json เพื่อนำไปบันทึกข้อมูล
 
+use file เพิ่มเติม
+
+```php
+use yii\web\UploadedFile;
+use yii\helpers\BaseFileHelper;
+use yii\helpers\Json;
+use yii\helpers\ArrayHelper;
+```
+
+สร้าง function
 
 ```php
 private function uploadSingleFile($model,$tempFile=null){
-    $file = [];
-    $json = '';
-    try {
-         $UploadedFile = UploadedFile::getInstance($model,'covenant');
-         if($UploadedFile !== null){
-             $oldFileName = $UploadedFile->basename.'.'.$UploadedFile->extension;
-             $newFileName = md5($UploadedFile->basename.time()).'.'.$UploadedFile->extension;
-             $UploadedFile->saveAs('freelances/'.$model->ref.'/'.$newFileName);
-             $file[$newFileName] = $oldFileName;
-             $json = Json::encode($file);
-         }else{
+        $file = [];
+        $json = '';
+        try {
+             $UploadedFile = UploadedFile::getInstance($model,'covenant');
+             if($UploadedFile !== null){
+                 $oldFileName = $UploadedFile->basename.'.'.$UploadedFile->extension;
+                 $newFileName = md5($UploadedFile->basename.time()).'.'.$UploadedFile->extension;
+                 $UploadedFile->saveAs(Freelance::UPLOAD_FOLDER.'/'.$model->ref.'/'.$newFileName);
+                 $file[$newFileName] = $oldFileName;
+                 $json = Json::encode($file);
+             }else{
+                $json=$tempFile;
+             }
+        } catch (Exception $e) {
             $json=$tempFile;
-         }
-    } catch (Exception $e) {
-        $json=$tempFile;
+        }
+        return $json ;
     }
-    return $json ;
-}
 ```
 
 ### สร้างฟังก์ชั่นอัพโหลดทีละหลายๆ ไฟล์
@@ -275,27 +293,27 @@ private function uploadSingleFile($model,$tempFile=null){
 
 ```php
 
-private function uploadMultipleFile($model,$tempFile){
-         $files = [];
-         $json = '';
-         $tempFile = Json::decode($tempFile);
-         $UploadedFiles = UploadedFile::getInstances($model,'docs');
-         if($UploadedFiles!==null){
-            foreach ($UploadedFiles as $file) {
-                try {   $oldFileName = $file->basename.'.'.$file->extension;
-                        $newFileName = md5($file->basename.time()).'.'.$file->extension;
-                        $file->saveAs('freelances/'.$model->ref.'/'.$newFileName);
-                        $files[$newFileName] = $oldFileName ;
-                } catch (Exception $e) {
+private function uploadMultipleFile($model,$tempFile=null){
+            $files = [];
+            $json = '';
+            $tempFile = Json::decode($tempFile);
+            $UploadedFiles = UploadedFile::getInstances($model,'docs');
+            if($UploadedFiles!==null){
+               foreach ($UploadedFiles as $file) {
+                   try {   $oldFileName = $file->basename.'.'.$file->extension;
+                           $newFileName = md5($file->basename.time()).'.'.$file->extension;
+                           $file->saveAs(Freelance::UPLOAD_FOLDER.'/'.$model->ref.'/'.$newFileName);
+                           $files[$newFileName] = $oldFileName ;
+                   } catch (Exception $e) {
 
-                }
+                   }
+               }
+               $json = json::encode(ArrayHelper::merge($tempFile,$files));
+            }else{
+               $json = $tempFile;
             }
-            $json = json::encode(ArrayHelper::merge($tempFile,$files));
-         }else{
-            $json = $tempFile;
-         }
-        return $json;
-}
+           return $json;
+   }
 ```
 
 ### สร้างฟังก์ชันเพื่อสร้างโฟลเดอร์สำหรับเก็บไฟล์
