@@ -333,7 +333,7 @@ private function CreateDir($folderName){
 
 ```
 
-### เรียกใช้งาน
+### เรียกใช้งานตอน Create
 
 เราจะเรียกใช้งานที่ actionCreate เพื่ออัพโหลดไฟล์ โดยของเดิมจะเป็นแบบนี้
 
@@ -389,3 +389,78 @@ public function actionCreate()
 เมื่อมีการ submit
 - ทำการสร้าง folder เพื่อเก็บไฟล์โดยใช้ ref
 - เมื่อมีการ submit ก็จะมีการเรียกใช้งาน `uploadSingleFile`,`uploadMultipleFile` และเมื่ออัพโหลดไฟล์เสร็จจะคืนค่ากลับมาเป็น string json ถ้าไม่มีไฟล์ก็จะคืนค่าเป็น null
+
+
+### เรียกใช้งานตอน Update
+
+จะคล้ายกับ create ต่างกันนิดหน่อยตรงที่ต้องเก็บค่าไฟล์เดิมไว้ก่อน เพื่อใช้ในกรณีไม่ได้มีการอัพโหลดไฟล์
+
+```php
+public function actionUpdate($id)
+{
+    $model = $this->findModel($id);
+    $tempCovenant = $model->covenant;
+    $tempDocs     = $model->docs;
+    if ($model->load(Yii::$app->request->post())) {
+        $model->covenant = $this->uploadSingleFile($model,$tempCovenant);
+        $model->docs = $this->uploadMultipleFile($model,$tempDocs);
+        if($model->save()){
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+    }
+
+    return $this->render('update', [
+        'model' => $model,
+    ]);
+}
+```
+
+### ทดลองอัพโหลดไฟล์
+
+เมื่ออัพโหลดไฟล์เสร็จ เราจะได้ข้อมูล json ออกมาแบบนี้
+
+![view-upload](/images/upload-file/view-upload.png)
+
+โดยข้อมูลจะเก็บเป็น key กับ value ซึ่ง key จะเป็นชื่อไฟล์จริงๆ ใน server และ value จะเป็นชื่อไฟล์ก่อนอัพโหลดไฟล์
+
+เราจะทำการเปลี่ยนข้อมูลจาก json เป็น link เพื่อให้สามารถคลิก download ได้โดยเพิ่ม function `listDownloadFiles()` ใน Model Freelance ฟังก์ชันนี้จะใช้ได้ทั้ง 2 ฟิวด์ docs,covenant
+
+```php
+public function listDownloadFiles($type){
+ $docs_file = '';
+ if(in_array($type, ['docs','covenant'])){
+
+         $data = $type==='docs'?$this->docs:$this->covenant;
+         $files = Json::decode($data);
+        if(is_array($files)){
+             $docs_file ='<ul>';
+             foreach ($files as $key => $value) {
+                $docs_file .= '<li>'.Html::a($value,['/freelance/download','id'=>$this->id,'file'=>$key,'file_name'=>$value]).'</li>';
+             }
+             $docs_file .='</ul>';
+        }
+ }
+
+ return $docs_file;
+}
+```
+จะแสดงผลแบบนี้
+
+![view-upload](/images/upload-file/view-upload.png)
+
+
+### สร้าง function สำหรับ download file
+ในการแสดงผลในหน้า view นั้นจะยังคลิก อัพโหลดไม่ได้เราต้องสร้าง function สำหรับ download ไฟล์ เพื่อไม่ให้เป็นการ link ไฟล์โดยตรง
+
+เพิ่ม actionDownload ที่ controllers/Freelance.php
+
+```php
+public function actionDownload($id,$file,$file_name){
+    $model = $this->findModel($id);
+     if(!empty($model->ref) && !empty($model->covenant)){
+            Yii::$app->response->sendFile($model->getUploadPath().'/'.$model->ref.'/'.$file,$file_name);
+    }else{
+        $this->redirect(['/freelance/view','id'=>$id]);
+    }
+}
+```
