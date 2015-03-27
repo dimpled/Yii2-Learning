@@ -545,7 +545,7 @@ public function actionDownload($id,$file,$file_name){
 - สามารถกดปุ่มลบรายการที่อัพโหลดได้
 
 
-เราจะทำการสร้าง function สำหรับอัพโหลด ajax ฟังก์ชันนี้มีหน้าทีรับไฟล์จาก ajax from แล้วส่งข้อมูมมาทำการอัพโหลดไฟล์ สามารถอัพได้ทั้งภาพและไฟล์ ถ้าเป็นภาพจะทำการ resize และสร้าง thumbnail ให้
+เราจะทำการสร้าง Uploads() ฟังก์ชันนี้มีหน้าทีรับไฟล์จาก ajax from แล้วส่งข้อมูลมาทำการอัพโหลดไฟล์ สามารถอัพได้ทั้งภาพและไฟล์ ถ้าเป็นภาพจะทำการ resize และสร้าง thumbnail ให้
 
 ```php
 private function Uploads($isAjax=false) {
@@ -595,7 +595,7 @@ private function Uploads($isAjax=false) {
 
   ```
 
-  ฟังก์ชันนี้เอาไว้ดึงรายการข้อมูลของตาราง `Uploads` เพื่อแสดงที่ thumbnail ตรงอัพโหลดในตอนที่มีการอัพเดทฟอร์ม
+  `getInitialPreview()` ฟังก์ชันนี้เอาไว้ดึงรายการข้อมูลของตาราง `Uploads` เพื่อแสดงที่ thumbnail ตรงอัพโหลดในตอนที่มีการแก้ไขข้อมูล
 
   ```php
   private function getInitialPreview($ref) {
@@ -614,13 +614,13 @@ private function Uploads($isAjax=false) {
         return  [$initialPreview,$initialPreviewConfig];
 }
 ```
-ฟังก์ชันนี้เป็นตรวเอาไว้แยกแยะระหว่างไฟล์และรูปภาพ
+`isImage()` ฟังก์ชันนี้เอาไว้แยกแยะระหว่างไฟล์และรูปภาพ
 ```php
 public function isImage($filePath){
         return @is_array(getimagesize($filePath)) ? true : false;
 }
 ```
-เอาไว้เลือก template ที่จะแสดงผลว่าเป็น image หรือไฟล์อื่นๆ
+`getTemplatePreview()` เอาไว้เลือก template ที่จะแสดงผลว่าเป็น image หรือไฟล์อื่นๆ
 ```php
 private function getTemplatePreview(Uploads $model){
         $filePath = Freelance::getUploadUrl().$model->ref.'/thumbnail/'.$model->real_filename;
@@ -635,7 +635,7 @@ private function getTemplatePreview(Uploads $model){
         return $file;
 }
 ```
-เป็น function ที่เอาไว้สร้าง thumbnail เล็กๆ เพื่อให้สามารถแสดงผลได้เร็ว
+`createThumbnail()` เป็น function ที่เอาไว้สร้าง thumbnail เล็กๆ เพื่อให้สามารถแสดงผลได้เร็ว
 ```php
 private function createThumbnail($folderName,$fileName,$width=250){
   $uploadPath   = Freelance::getUploadPath().'/'.$folderName.'/';
@@ -646,7 +646,7 @@ private function createThumbnail($folderName,$fileName,$width=250){
   return;
 }
 ```
-เป็น action ที่เอาไว้ลบไฟล์ในกรณีที่คลิกลบไฟล์ จาก thumbnail ในตัวอัพโหลด ajax
+`actionDeletefileAjax()` เป็น action ที่เอาไว้ลบไฟล์ในกรณีที่คลิกลบไฟล์ จาก thumbnail ในตัวอัพโหลด ajax
 ```php
 public function actionDeletefileAjax(){
 
