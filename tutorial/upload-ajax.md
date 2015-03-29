@@ -23,7 +23,7 @@
 ```
 
 ## Gii Model และ Gii CRUD PhotoLibrary
-ในตัวอย่างนี้เราจะสร้างระบบเก็บรูปภาพโดยใช้ตารางชื่อว่า photogallry ดูโครงสร้างโดยใช้โครงสร้างตารางตามนี้
+ในตัวอย่างนี้เราจะสร้างระบบเก็บรูปภาพโดยใช้ตารางชื่อว่า photolibrary ดูโครงสร้างโดยใช้โครงสร้างตารางตามนี้
 
 ```sql
 CREATE TABLE `photo_library` (
@@ -47,7 +47,7 @@ CREATE TABLE `photo_library` (
 ## สร้างฟอร์ม
 หลังจากที่ได้ไฟล์จากการ gii crud แล้วเราจะทำการปรับปรุงฟอร์มเพิ่มเติมเพื่อให้สามารถ upload file ได้
 
-เปิดไฟล์ `views\photo-gallry\_form.php` เพิ่มแท็ก  `enctype` เข้าไป
+เปิดไฟล์ `views\photo-library\_form.php` เพิ่มแท็ก  `enctype` เข้าไป
 
 ```php
 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
@@ -242,7 +242,7 @@ use kartik\date\DatePicker;
 
 ```
 
-แก้ไขไฟล์ `views/photo-gallry/create.php`
+แก้ไขไฟล์ `views/photo-library/create.php`
 
 เราจะทำการส่งค่า `initialPreview` และ `initialPreviewConfig` เป็น array ว่างๆ ไปเพราะในตอน create ยังไม่มีข้อมูลที่จะแสดง เราจึงจำเป็นต้องส่ง array ว่างๆ ไปก่อน
 ```php
@@ -272,7 +272,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ```
 
-แก้ไขไฟล์ `views/photo-gallry/update.php` ใน actionUpdate เราจะทำการส่งค่า `initialPreview` และ `initialPreviewConfig`  ไปเพื่อให้ widget แสดง thumbnail รูปภาพที่เคยอัพโหลดไปแล้ว แต่ในตอนนี้เรายังไม่ได้สร้างฟังชันเราจะส่ง array ว่างๆ  ไปก่อน
+แก้ไขไฟล์ `views/photo-library/update.php` ใน actionUpdate เราจะทำการส่งค่า `initialPreview` และ `initialPreviewConfig`  ไปเพื่อให้ widget แสดง thumbnail รูปภาพที่เคยอัพโหลดไปแล้ว แต่ในตอนนี้เรายังไม่ได้สร้างฟังชันเราจะส่ง array ว่างๆ  ไปก่อน
 
 ```php
 <?php
@@ -304,8 +304,47 @@ $this->params['breadcrumbs'][] = 'Update';
 ลองทดสอบรันจะได้ฟอร์มตามตัวอย่างนี้
 ![](/images/upload-file/upload-ajax-form.png)
 
+## เพิ่ม function ใน Model PhotoLibrary
+เป็นฟังก์ชันไว้เรียก path ไฟล์ใน server และ url, getThumbnails() เอาไว้ดึงข้อมูลรูปภาพมาแสดงใน gallry และสุดท้าย `getProvince()` เอาไว้ relation กับตาราง province
+
+ ให้ทำการเพิ่ม function  เข้าไปที่ไฟล์ `models\PhotoLibrary.php` ดังนี้
+
+```php
+const UPLOAD_FOLDER='photolibrarys';
+
+// ..........
+
+public static function getUploadPath(){
+    return Yii::getAlias('@webroot').'/'.self::UPLOAD_FOLDER.'/';
+}
+
+public static function getUploadUrl(){
+    return Url::base(true).'/'.self::UPLOAD_FOLDER.'/';
+}
+
+public function getThumbnails($ref,$event_name){
+     $uploadFiles   = Uploads::find()->where(['ref'=>$ref])->all();
+     $preview = [];
+    foreach ($uploadFiles as $file) {
+        $preview[] = [
+            'url'=>self::getUploadUrl(true).$ref.'/'.$file->real_filename,
+            'src'=>self::getUploadUrl(true).$ref.'/thumbnail/'.$file->real_filename,
+            'options' => ['title' => $event_name]
+        ];
+    }
+    return $preview;
+}
+
+public function getProvince()
+{
+  return $this->hasOne(Province::className(),['PROVINCE_ID'=>'province_id']);
+}
+```
 
 ## สร้าง Function สำหรับการอัพโหลด Ajax
+
+
+
 
 `Uploads()` ฟังก์ชันนี้มีหน้าทีรับไฟล์จาก ajax from แล้วส่งข้อมูลมาทำการอัพโหลดไฟล์ สามารถอัพได้ทั้งภาพและไฟล์ ถ้าเป็นภาพจะทำการ resize และสร้าง thumbnail ให้
 
