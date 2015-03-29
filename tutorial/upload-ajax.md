@@ -13,7 +13,7 @@
 
 
 ## ติดตั้ง extension เพิ่มเติม
-เพิ่ม รายชื่อ extension เข้าไปที่ไฟล์ composer.json เพิ่มไว้ภายใต้่แท็ก require จากนั้น cd เข้าไปที่ root project ของเราแล้วรันคำสั่ง `composer update`
+เพิ่ม รายชื่อ extension เข้าไปที่ไฟล์ composer.json เพิ่มไว้ภายใต้แท็ก require จากนั้น cd เข้าไปที่ root project ของเราแล้วรันคำสั่ง `composer update`
 
 ```json
 "kartik-v/yii2-widgets": "*",
@@ -23,7 +23,7 @@
 ```
 
 ## Gii Model และ Gii CRUD PhotoLibrary
-ในตัวอย่างนี้เราจะสร้างระบบเก็บรูปภาพโดยใช้ตารางชื่อว่า photolibrary ดูโครงสร้างโดยใช้โครงสร้างตารางตามนี้
+ในตัวอย่างนี้เราจะสร้างระบบเก็บรูปภาพโดยใช้ตารางชื่อว่า photolibrary และสร้างตารางตามนี้
 
 ```sql
 CREATE TABLE `photo_library` (
@@ -305,7 +305,12 @@ $this->params['breadcrumbs'][] = 'Update';
 ![](/images/upload-file/upload-ajax-form.png)
 
 ## เพิ่ม function ใน Model PhotoLibrary
-เป็นฟังก์ชันไว้เรียก path ไฟล์ใน server และ url, getThumbnails() เอาไว้ดึงข้อมูลรูปภาพมาแสดงใน gallry และสุดท้าย `getProvince()` เอาไว้ relation กับตาราง province
+
+- UPLOAD_FOLDER เป็นตัวแปร static ให้เรากำหนดชื่อโฟลเดอร์ที่ต้องการอัพโหลดได้
+- getUploadPath()  เป็นฟังก์ชันไว้เรียกพาทไฟล์จริงใน server
+- getUploadUrl()  เป็นฟังก์ชันไว้เรียก url จริงของไฟล์
+- getThumbnails()  เป็นฟังก์ชันส่งข้อมูล array ให้ widget Gallry เพื่อแสดง thumbnail
+- getProvince() เป็นการสร้าง relation ไปยังตาราง province ด้วยฟิวด์ province_id เพื่อดึงชื่อจังหวัดมาแสดง
 
  ให้ทำการเพิ่ม function  เข้าไปที่ไฟล์ `models\PhotoLibrary.php` ดังนี้
 
