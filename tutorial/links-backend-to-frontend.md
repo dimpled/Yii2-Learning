@@ -28,7 +28,7 @@
 
 echo Yii::$app->urlManagerBackend->createAbsoluteUrl(['site/index','id'=>4]);
 echo Yii::$app->urlManagerBackend->createUrl(['site/index','id'=>4]);
-echo Yii::$app->urlManagerBackend->getBaseUrl(true);
+echo Yii::$app->urlManagerBackend->getBaseUrl();
 echo Yii::$app->urlManagerBackend->getHostInfo();
 echo Yii::$app->urlManagerBackend->getScriptUrl();
 
@@ -60,6 +60,6 @@ echo Yii::$app->urlManagerBackend->getScriptUrl();
 
 echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(['site/index','id'=>4]);
 echo Yii::$app->urlManagerFrontend->createUrl(['site/index','id'=>4]);
-echo Yii::$app->urlManagerFrontend->getBaseUrl(true);
+echo Yii::$app->urlManagerFrontend->getBaseUrl();
 echo Yii::$app->urlManagerFrontend->getHostInfo();
 echo Yii::$app->urlManagerFrontend->getScriptUrl();
