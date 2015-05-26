@@ -13,6 +13,7 @@ Yii2 Framework Tutorial ตั้งใจทำขึ้นเพื่อแ�
  - [เพิ่ม Botton Group ใน GridView](/widgets/gridview-button.md)
 
 ##Tutorial
+- [Relation & Virtual Attribute](/tutorial/relations.md)
 - [เปิดการใช้งาน Pretty urls (mod_rewrite)](/tutorial/modrewrite.md)
 - [RESTful Web Service](/tutorial/restful-webservice.md)
 - การสร้าง Theme
