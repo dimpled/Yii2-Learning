@@ -1,6 +1,6 @@
 # Relations & Virtual Attribute
 
-![sort](images/sort.png)
+![sort](/images/sort.png)
 
 ตัวอย่างง่ายๆ ในการสร้าง relation กับ model ตัวอย่างนี้ผมจำลองข้อมูลไว้ 2 ตารางคือ Patient & Hospital 
 โดยที่ตาราง patient จะเกับรหัสของโรงพยาบาลไว้ คือ hospital_code
