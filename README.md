@@ -1,4 +1,7 @@
 # Yii2-Learning
+
+> ตอนนี้ย้ายไปที่ githubPage แล้วเนื้อหาเพียบ ตามอ่านได้[ที่นี่ครับ](http://dixonsatit.github.io/yii2-learning/)
+
 Yii2 Framework Tutorial ตั้งใจทำขึ้นเพื่อแบ่งปันความรู้ให้กับผู้ที่สนใจ เน้น Tutorial ที่ใช้งานได้จริงๆ พร้อม Source Code ใครที่อยากเขียนช่วยก็กด Fork ได้เลยนะครับ
 
 [Download Source Code](https://github.com/dimpled/Yii2-Learning-Source/releases)
